@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "doe-vida",
+    "slug": "doe-vida",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "doe-vida"
+}
