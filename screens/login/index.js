@@ -16,9 +16,9 @@ function Login({ navigation }) {
         navigation.navigate("NavBar")
     }
     return (
-        <View className="flex-1 items-center justify-center bg-pink-primary ">
-            <View className="flex items-center bg-black w-10/12 p-2 rounded-xl">
-            <Text className="text-white">
+        <View className="flex-1 items-center justify-center ">
+            <View className="flex items-center w-10/12 p-2 rounded-xl">
+            <Text className="">
                 Login
             </Text>
             {/* 
