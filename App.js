@@ -1,21 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { withExpoSnack } from 'nativewind';
+import Routers from './Routers';
+import { View, Text, TouchableOpacity } from 'react-native';
+import CustomButton from './assets/components/customButton';
 
-export default function App() {
+function App() {
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    // <View >
+    //   <View className="bg-black w-96 h-96">
+    //   </View>
+    //   <Text>texto</Text>
+    //   <TouchableOpacity>
+    //     <Text>botao</Text>
+    //   </TouchableOpacity>
+    //   <Exemplo></Exemplo>
+    //   <View className="w-[90%]">
+    //         <TouchableOpacity className="h-[55px] flex items-center justify-center rounded-lg bg-[#BB0FD7] border border-[#C032E2]" onPress={()=>{}}>
+    //             <Text className="text-[20px] text-white">{"name"}</Text>
+    //         </TouchableOpacity>
+    //     </View>
+    // </View>
+    <Routers />
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// \/ \/ \/ se for testar web
+// export default withExpoSnack(App)
+// \/ \/ \/ se for testar android/emulador
+export default (App)
