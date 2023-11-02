@@ -37,13 +37,13 @@ function FormGenerator({ dados, setDados, info = [infotype], submitAction = ()=>
     return (
         <View className='flex w-[100%] justify-evenly items-center '>
             <InputGenerator ref={childRef} dados={dados} setDados={setDados} info={info} errors={errors} setErrors={setErrors} />
-            <View className="p-2"></View>
+            {/* <View className="p-2"></View> */}
             <View className="flex flex-row w-[100%] justify-around items-center " >
                 <View className={secondButtonName == undefined ? "hidden" : `w-[40%]`}>
-                    <CustomButton name={secondButtonName} evento={() => secondButtonFunction()} />
+                    <CustomButton name={secondButtonName} event={() => secondButtonFunction()} />
                 </View>
                 <View className={secondButtonName == undefined ? "flex flex-row w-[100%] justify-around items-center" : `w-[40%]`}>
-                    <CustomButton name={buttonName} evento={() => verification()} />
+                    <CustomButton name={buttonName} event={() => verification()} />
                 </View>
             </View>
         </View>

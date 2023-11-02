@@ -15,11 +15,11 @@ module.exports = {
           10: "#1F1B29",
           25: "#2E2A36",
           50: "#616161",
-          100: "#99969E",
-          200: "#BAB9BD",
-          300: "#616161",
-          400: "#ECECEE",
-          500: "#F3F3F5",
+          110: "#99969E",
+          220: "#BAB9BD",
+          330: "#616161",
+          440: "#ECECEE",
+          550: "#F3F3F5",
         },
         pink: {
           primary: "#F50057",
@@ -32,13 +32,17 @@ module.exports = {
       },
       textStyle: {
         fontSize: {
-          'header1': '25px',
-          'header2': '20px',
-          'header3': '18px',
-          'body1': '16px',
-          'body2': '14px',
-          'body3': '12px',
-          'body4': '10px',
+          header:{
+            1: '25px',
+            2: '20px',
+            3: '18px',
+          },
+          body:{
+            1: '16px',
+            2: '14px',
+            3: '12px',
+            4: '10px',
+          },
         },
         fontFamily: {
           'sans': ['Roboto', 'sans-serif'],

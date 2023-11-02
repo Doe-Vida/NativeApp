@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from './screens/login';
 import HomeScreen from './screens/navbar/home';
 import BloodDonationsScreen from './screens/navbar/bloodDonation';
+import InitialPage from './screens/initialPage';
+import SignUpScreen from './screens/signup';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -56,8 +58,10 @@ function Routers() {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator >
+                <Stack.Screen options={{headerShown:false}} name='InitialPage' component={InitialPage} />
                 <Stack.Screen name='Login' component={LoginScreen} />
+                <Stack.Screen name='SignUp' component={SignUpScreen} />
                 <Nav.Screen name='NavBar' component={NavBar} />
             </Stack.Navigator>
         </NavigationContainer>

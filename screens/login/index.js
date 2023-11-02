@@ -4,10 +4,10 @@ import FormGenerator from "../../assets/components/formGenerator";
 import { useState } from "react";
 import CustomButton from "../../assets/components/customButton";
 
-function Login({ navigation }) {
+function LoginScreen({ navigation }) {
     const [dados, setDados] = useState({
-        username: "adm@senha123.adm",
-        password: "senha123",
+        username: "meira.gmrm@hotmail.com",
+        password: "SenhaForte",
     })
     
 
@@ -97,4 +97,4 @@ function Login({ navigation }) {
     );
 }
 
-export default Login;
+export default LoginScreen;

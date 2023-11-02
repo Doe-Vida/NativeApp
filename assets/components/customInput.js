@@ -2,6 +2,9 @@ import { View, Text, TextInput} from "react-native";
 
 const CustomInput = ({onChangeText, placeholder, type, value, isPassword}) => {
     const transform = (par)=>{
+        if (par == undefined){
+            return
+        }
         return (par.charAt(0).toUpperCase() + par.slice(1)).replace(/_/g," ")
     }
 
