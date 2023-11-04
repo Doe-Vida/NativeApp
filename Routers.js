@@ -76,6 +76,16 @@ function NavBar() {
                     borderTopColor: 'transparent',
                     paddingVertical: 1,
                     height: 70,
+                    // shadowOffset: {
+                    //     width: -12,
+                    //     height: -12,
+                    // },
+                    // shadowOpacity: 0.58,
+                    // shadowRadius: 16.0,
+                    // elevation: 24,
+                    // borderTopLeftRadius: 21,
+                    // borderTopRightRadius: 21,
+                    // backgroundColor: '#fff',
                 },
                 tabBarActiveTintColor: '#0ff000',
                 tabBarInactiveTintColor: '#d9d9d9',
@@ -89,11 +99,12 @@ function NavBar() {
                 options={{
                     contentStyle: {},
                     headerShown: false,
-                    tabBarIcon: ({ size, color }) => (
+                    tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
 
-                            <Ionicons name="home" size={size} color={color} />
-                            <Text className="text-xs">Solicitacoes</Text>
+                            <Ionicons name="heart" size={size} color={color} />
+                            <Text className="text-xs"
+                            style={colorActiveText(focused)}>Solicitacoes</Text>
                         </View>
                     )
                 }}
@@ -105,7 +116,7 @@ function NavBar() {
                     headerShown: false,
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
-                            <Ionicons name="home" size={size} color={color} />
+                            <Ionicons name="map" size={size} color={color} />
                             <Text className="text-xs"
                                 style={colorActiveText(focused)}>Maps</Text>
                         </View>
@@ -116,9 +127,9 @@ function NavBar() {
                 name='Home'
                 component={HomeScreen}
                 options={{
-                    tabBarIcon: ({ size, color }) => (
+                    tabBarIcon: ({ focused, size, color }) => (
                         <View className="">
-                            <Ionicons name="home" size={size} color={color} />
+                            <Ionicons name="home-sharp" size={size} color={color} />
                         </View>
 
                     ),
@@ -132,11 +143,12 @@ function NavBar() {
                 component={RulesScreen}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ size, color }) => (
+                    tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
 
-                            <Ionicons name="home" size={size} color={color} />
-                            <Text className="text-xs">Regras</Text>
+                            <Ionicons name="list" size={size} color={color} />
+                            <Text className="text-xs"
+                            style={colorActiveText(focused)}>Regras</Text>
                         </View>
                     )
                 }}
@@ -146,11 +158,12 @@ function NavBar() {
                 component={ExperiencesScreen}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ size, color }) => (
+                    tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
 
-                            <Ionicons name="home" size={size} color={color} />
-                            <Text className="text-xs">Experiencias</Text>
+                            <Ionicons name="checkmark-circle" size={size} color={color} />
+                            <Text className="text-xs"
+                            style={colorActiveText(focused)}>Experiencias</Text>
                         </View>
                     )
                 }}

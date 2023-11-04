@@ -21,7 +21,7 @@ function LoginScreen({ navigation }) {
         apiDoeVida.post('login', dados)
         .then(async(res)=>{
             console.log(res.data.data.access_token);
-            SecureStore.setItemAsync("token", JSON.stringify(res.data['data']))
+            SecureStore.setItemAsync("token", JSON.stringify({username: dados['username'] , ...res.data['data']}))
             // await setToken(JSON.stringify(res.data.data))
             navigation.navigate("NavBar");
         })
