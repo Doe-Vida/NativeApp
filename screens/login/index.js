@@ -1,26 +1,36 @@
 import { Link } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useState } from "react";
 import CustomButton from "../../assets/components/customButton";
+import apiDoeVida from "../../assets/services/apiDoeVida";
+import setToken from "../../assets/services/setToken";
+import * as SecureStore from 'expo-secure-store';
+
 
 function LoginScreen({ navigation }) {
+
     const [dados, setDados] = useState({
         username: "meira.gmrm@hotmail.com",
         password: "SenhaForte",
     })
     
-
-
-    const logar = () => {
-        navigation.navigate("NavBar")
+    
+    const logar = async() => {
+        console.log("connecting...");
+        apiDoeVida.post('login', dados)
+        .then(async(res)=>{
+            console.log(res.data.data.access_token);
+            SecureStore.setItemAsync("token", JSON.stringify(res.data['data']))
+            // await setToken(JSON.stringify(res.data.data))
+            navigation.navigate("NavBar");
+        })
+        .catch(res=>alert(JSON.stringify(res.response.data)))
     }
     return (
         <View className="flex-1 items-center justify-center ">
             <View className="flex items-center w-10/12 p-2 rounded-xl">
-            <Text className="">
-                Login
-            </Text>
+            <Image className="w-72 h-72" source={require('../../assets/images/doctors.png')}></Image>
             {/* 
             Esse form generator é o que eu fiz com os validadores
             dentro de info os seguintes valores podem ser colocados:
@@ -29,6 +39,8 @@ function LoginScreen({ navigation }) {
                     req: bool
                     min: number
                     max: number
+                    type: string, como é um arquivo javacript não puxa os tipos, porem deve ser
+                    "default" | "number-pad" | "decimal-pad" | "numeric" | "email-address" | "phone-pad" | "url"
                     specificValidator: function -> exemplo:     
                                             (e) => {
                                                 // faz a verificação e se não estiver de acordo com a regra retorna uma string
@@ -70,19 +82,19 @@ function LoginScreen({ navigation }) {
                     info={[
                         {
                             name: "username",
-                            type: "text",
+                            type: "default",
                         },
                         {
                             title: "custom title",
                             placeholder: "custom placeholder",
-                            type: "text",
+                            type: "default",
                             name: "password",
                             isPassword: true
                         },
                     ]}
                 />
             </View>
-            <TouchableOpacity onPress={() => { logar() }} className='bg-slate-100 p-2 rounded-full'>
+            <TouchableOpacity onPress={() => { navigation.navigate("NavBar"); }} className='bg-slate-100 p-2 rounded-full'>
                 <Text>Logar</Text>
             </TouchableOpacity>
             <Link to={"/NavBar"} >

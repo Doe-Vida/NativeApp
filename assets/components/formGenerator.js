@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { View } from "react-native";
+import { View, KeyboardType } from "react-native";
 import InputGenerator from "./inputGenerator";
 import CustomButton from "./customButton";
 
@@ -8,6 +8,7 @@ const infotype = {
     req: false,
     min: 0,
     max: 0,
+    type: "",
     specificValidator: ()=>{},
     placeholder: "",
     isPassword: false,
@@ -18,6 +19,7 @@ const infotype = {
 function FormGenerator({ dados, setDados, info = [infotype], submitAction = ()=>{}, buttonName, secondButtonName, secondButtonFunction }) {
     const [errors, setErrors] = useState({
     })
+     
     const childRef = useRef();
     const verification = () => {
         var error = childRef.current.validate()

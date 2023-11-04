@@ -58,6 +58,7 @@ function InputGenerator({ dados, setDados, info, errors, setErrors }, ref) {
                         value={dados[item.name]}
                         placeholder={item.placeholder != undefined ? item.placeholder : item.name}
                         isPassword={item.isPassword}
+                        type={item.type}
                         onChangeText={(e) => { setErrors({ ...errors, [item.name]: validators(item, e) }); setDados({ ...dados, [item.name]: e }) }}
                     />
                     <View className={errors[item.name] == undefined ? "hidden" : `block`}>
