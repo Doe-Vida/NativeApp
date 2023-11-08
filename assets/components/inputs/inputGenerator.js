@@ -53,14 +53,20 @@ function InputGenerator({ dados, setDados, info, errors, setErrors }, ref) {
             {info.map((item) =>
                 <View key={item.name} className='pb-3'>
                     <CustomInput
+
+                    /*
+                        TROCAR AUTOMATICAMENTE ICON LEFT AND RIGHT COM BASE NO TIPO
+                    */
                         // key={item.name}
                         title={item.name}
                         value={dados[item.name]}
                         placeholder={item.placeholder != undefined ? item.placeholder : item.name}
                         isPassword={item.isPassword}
+                        iconLeft={item.iconLeft}
+                        iconRight={item.iconRight}
                         type={item.type}
                         onChangeText={(e) => { setErrors({ ...errors, [item.name]: validators(item, e) }); setDados({ ...dados, [item.name]: e }) }}
-                    />
+                    ></CustomInput>
                     <View className={errors[item.name] == undefined ? "hidden" : `block`}>
                         <Text className="text-red-400">
                             *{errors[item.name]}

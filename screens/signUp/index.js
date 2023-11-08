@@ -1,6 +1,6 @@
 import { View, Image, Text, Alert } from "react-native";
-import CustomInput from "../../assets/components/customInput";
-import CustomButton from "../../assets/components/customButton";
+// import CustomInput from "../../assets/components/customInput";
+// import CustomButton from "../../assets/components/buttons/customButton";
 import { useState } from "react";
 import FormGenerator from "../../assets/components/formGenerator";
 import apiDoeVida from "../../assets/services/apiDoeVida";

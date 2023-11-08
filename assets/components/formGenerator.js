@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { View, KeyboardType } from "react-native";
-import InputGenerator from "./inputGenerator";
-import CustomButton from "./customButton";
+import InputGenerator from "./inputs/inputGenerator";
+import CustomButton from "./buttons/customButton";
 
 const infotype = {
     name: "",
@@ -9,17 +9,17 @@ const infotype = {
     min: 0,
     max: 0,
     type: "",
-    specificValidator: ()=>{},
+    specificValidator: () => { },
     placeholder: "",
     isPassword: false,
     description: <View></View>,
 }
 
 
-function FormGenerator({ dados, setDados, info = [infotype], submitAction = ()=>{}, buttonName, secondButtonName, secondButtonFunction }) {
+function FormGenerator({ dados, setDados, info = [infotype], submitAction = () => { }, buttonName, secondButtonName, secondButtonFunction }) {
     const [errors, setErrors] = useState({
     })
-     
+
     const childRef = useRef();
     const verification = () => {
         var error = childRef.current.validate()
@@ -38,7 +38,9 @@ function FormGenerator({ dados, setDados, info = [infotype], submitAction = ()=>
     }
     return (
         <View className='flex w-[100%] justify-evenly items-center '>
-            <InputGenerator ref={childRef} dados={dados} setDados={setDados} info={info} errors={errors} setErrors={setErrors} />
+            <View className="w-5/6">
+                <InputGenerator ref={childRef} dados={dados} setDados={setDados} info={info} errors={errors} setErrors={setErrors} />
+            </View>
             {/* <View className="p-2"></View> */}
             <View className="flex flex-row w-[100%] justify-around items-center " >
                 <View className={secondButtonName == undefined ? "hidden" : `w-[40%]`}>

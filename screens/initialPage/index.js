@@ -1,5 +1,7 @@
 import { View, Text, Image } from "react-native";
-import CustomButton from "../../assets/components/customButton";
+import CustomButton from "../../assets/components/buttons/customButton";
+import WhiteButton from "../../assets/components/buttons/whiteButton";
+import CustomInput from "../../assets/components/inputs/customInput";
 
 function InitialPage({ navigation }) {
     const goLogin = () => {
@@ -14,11 +16,11 @@ function InitialPage({ navigation }) {
                 className="w-72 h-72"
                 source={require("../../assets/images/donation.png")}></Image>
             <View className="w-full h-48 justify-between flex items-center my-2">
-                
                 <CustomButton name={"LOGIN"} event={() => goLogin()} />
                 <CustomButton name={"CRIAR CONTA"} event={() => goSignUp()} />
                 <View className="flex flex-row justify-end w-[90%]">
-                    <CustomButton name={"Seguir sem login"} />
+                    <WhiteButton name={"Seguir sem login"}/>
+                    
                 </View>
             </View>
         </View>

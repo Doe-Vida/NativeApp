@@ -5,25 +5,24 @@ module.exports = {
     "./Routers.{js,jsx,ts,tsx}", 
     "./screens/**/*.{js,jsx,ts,tsx}",
     "./assets/components/*.{js,jsx,ts,tsx}",
+    "./assets/components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       colors:{
-        black: "#000000",
-        white: "#FFFFFF",
         gray: {
           10: "#1F1B29",
           25: "#2E2A36",
           50: "#616161",
           110: "#99969E",
           220: "#BAB9BD",
-          330: "#616161",
+          330: "#DEDEE0",
           440: "#ECECEE",
           550: "#F3F3F5",
         },
         pink: {
           primary: "#F50057",
-          second: "#EC407A",
+          secundary: "#EC407A",
         },
         blue: {
           link: "#1A44AF",

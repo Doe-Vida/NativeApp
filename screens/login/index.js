@@ -2,7 +2,7 @@ import { Link } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useState } from "react";
-import CustomButton from "../../assets/components/customButton";
+// import CustomButton from "../../assets/components/buttons/customButton";
 import apiDoeVida from "../../assets/services/apiDoeVida";
 import setToken from "../../assets/services/setToken";
 import * as SecureStore from 'expo-secure-store';

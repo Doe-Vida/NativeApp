@@ -15,23 +15,21 @@ function HomeScreen() {
         "comments": "[]",
         "date_last_donation": null,
         "donations_orders": "[]",
-        "first_name": "null",
+        "first_name": null,
         "id": "0",
-        "last_name": "null",
+        "last_name": null,
         "password": "",
         "phone": null,
         "posts": "[]",
         "qty_donations": null,
         "sex": null,
         "state": null,
-        "username": "username",
+        "username": "username@username.com",
 
     })
     useEffect(() => {
-        // pegarToken()
-        // setTokenAccess(JSON.parse(await getToken()))
-        // 
-
+        pegarToken()
+        // setTokenAccess(JSON.parse(getToken()))
 
     }, [])
     const pegarUser = () => {
@@ -43,6 +41,10 @@ function HomeScreen() {
         apiDoeVida.get(`users/${tokenAccess.username}`, { headers: { Authorization: "Bearer " + tokenAccess.access_token } })
             .then((res) => {
                 console.log(res.data)
+                if (res.data['data'] == undefined){
+                    alert('error')
+                    return
+                }
                 setUser(res.data['data'])
             })
             .catch((res) => {
@@ -63,19 +65,19 @@ function HomeScreen() {
 
     return (
         <View className="flex-1  bg-pink-primary ">
-            <View className='w-full h-[30%] flex justify-end'>
+            <View className='w-full h-[25%] flex justify-end'>
                 <View className="flex flex-row justify-center items-center w-full ">
                     <Text className="text-white font-bold ">Doe Vida</Text>
                     <View className='absolute right-10'>
-                    <Ionicons name="notifications" size={36} color={"#fff"} />
+                        <Ionicons name="notifications" size={32} color={"#fff"} />
                     </View>
                 </View>
                 <View className='flex flex-row items-center'>
                     <View className='h-[96px] w-[96px] mx-4 rounded-full items-center justify-center bg-white'>
-                        <Image className="h-[90px] w-[90px] bg-black rounded-full"></Image>
+                        <Image source={require("../../../assets/images/user_default.png")} className="h-[90px] w-[90px] bg-black rounded-full"></Image>
                     </View>
                     <View className="">
-                        <Text className="font-bold text-white">{user.first_name != null ? user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1) + " " + (user.last_name != null ?user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1) : "") : user.username}</Text>
+                        <Text className="font-bold  text-white">{user.first_name != null ? user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1) + " " + (user.last_name != null ? user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1) : "") : user.username}</Text>
                         <Text className='text-white'>{user.qty_donations ?? 0} doações realizadas</Text>
                     </View>
                 </View>
@@ -107,15 +109,18 @@ function HomeScreen() {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View className='bg-white h-[60%] w-full rounded-t-3xl flex flex-col'>
-                <View className='flex flex-row h-20 w-full'>
-                    <View className='w-[50%] h-full flex items-center justify-center border-gray-50 border-r'>
+            <View className='bg-white h-[65%] w-full rounded-t-3xl flex flex-col'>
+                <View className='flex flex-row h-20 w-full items-center'>
+                    <View className='w-[50%] h-full flex items-center justify-center'>
                         <Text className="font-bold">
                             {user.date_last_donation ?? "-"}
                         </Text>
                         <Text>
                             Última doação
                         </Text>
+                    </View>
+                    <View className='bg-gray-50 w-px h-4/6'>
+
                     </View>
                     <View className='w-[50%] h-full flex items-center justify-center '>
                         <Text className="font-bold">
@@ -155,11 +160,19 @@ function HomeScreen() {
                     </View>
                 </View>
                 <View>
-                    <Text className="font-bold ml-8 ">Inspire-se</Text>
-                    <ScrollView horizontal className="space-x-2 mt-2">
-                        <Image className='w-60 h-28 rounded-xl ml-2' source={require("../../../assets/images/frases/convey_love.png")}></Image>
-                        <Image className='w-60 h-28 rounded-xl ' source={require("../../../assets/images/frases/convey_love.png")}></Image>
-                        <Image className='w-60 h-28 rounded-xl ' source={require("../../../assets/images/frases/convey_love.png")}></Image>
+                    <Text className="font-bold ml-8">Inspire-se</Text>
+                    <ScrollView horizontal className="space-x-2 mt-2 py-4">
+                        <View className="ml-6"></View>
+                        <View className='border border-gray-110 rounded-3xl overflow-hidden'>
+                            <Image className='w-60 h-36 ml-2' source={require("../../../assets/images/frases/donate_blood_life.png")}></Image>
+                        </View>
+                        <View className='border border-gray-110 rounded-3xl overflow-hidden'>
+                            <Image className='w-60 h-36' source={require("../../../assets/images/frases/convey_love.png")}></Image>
+                        </View>
+                        <View className='border border-gray-110 rounded-3xl overflow-hidden'>
+                            <Image className='w-60 h-36' source={require("../../../assets/images/frases/donate_is_good.png")}></Image>
+                        </View>
+                        <View className="mr-6"></View>
                     </ScrollView>
                 </View>
             </View>

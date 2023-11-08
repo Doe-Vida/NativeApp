@@ -13,6 +13,7 @@ import RequestsScreen from './screens/navbar/requests';
 import MapsScreen from './screens/navbar/maps';
 import RulesScreen from './screens/navbar/rules';
 import ExperiencesScreen from './screens/navbar/experiences';
+import TestPage from './screens/test';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -179,10 +180,11 @@ function Routers() {
     return (
         <NavigationContainer >
             <Stack.Navigator>
-                <Nav.Screen options={{ headerShown: false }}  name='NavBar' component={NavBar} />
+                <Stack.Screen name="test" component={TestPage} />
                 <Stack.Screen options={{ headerShown: false }} name='InitialPage' component={InitialPage} />
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='SignUp' component={SignUpScreen} />
+                <Nav.Screen options={{ headerShown: false }}  name='NavBar' component={NavBar} />
             </Stack.Navigator>
         </NavigationContainer>
         //   <Login/>

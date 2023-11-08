@@ -3,7 +3,6 @@ import React from 'react';
 import { withExpoSnack } from 'nativewind';
 import Routers from './Routers';
 import { View, Text, TouchableOpacity } from 'react-native';
-import CustomButton from './assets/components/customButton';
 
 function App() {
   
