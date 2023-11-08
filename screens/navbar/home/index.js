@@ -43,6 +43,10 @@ function HomeScreen() {
         apiDoeVida.get(`users/${tokenAccess.username}`, { headers: { Authorization: "Bearer " + tokenAccess.access_token } })
             .then((res) => {
                 console.log(res.data)
+                if (res.data['data'] == undefined){
+                    alert('error')
+                    return
+                }
                 setUser(res.data['data'])
             })
             .catch((res) => {
