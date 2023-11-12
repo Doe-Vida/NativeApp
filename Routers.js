@@ -14,12 +14,14 @@ import MapsScreen from './screens/navbar/maps';
 import RulesScreen from './screens/navbar/rules';
 import ExperiencesScreen from './screens/navbar/experiences';
 import TestPage from './screens/test';
+import BloodTypesScreen from './screens/navbar/bloodTypes';
+import { Iconify } from 'react-native-iconify';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function NavBar() {
-    var ActiveTintColor = '#0ff000';
+    var ActiveTintColor = '#F50057';
     var InactiveTintColor = '#d9d9d9';
     const colorActiveText = (focused) => {
         return { color: focused ? ActiveTintColor : InactiveTintColor }
@@ -39,31 +41,69 @@ function NavBar() {
             elevation: 5
         }
     })
-    
-    const CustomTabBarButton = ({ children, onPress }) =>
-    <View>
 
-        <TouchableOpacity
-            style={{
-                top: -30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 60,
-                height: 60,
-                borderRadius: 36,
-                backgroundColor: '#ffffff',
-                ...styles.shadow
-            }}
-            onPress={onPress}
-        >
-            <View style={{
-                
+    const CustomTabBarIcon = ({ focused, size, color, name, iconName }) =>
+        <View className="flex flex-col items-center">
+            <View
+                style={{
+                    backgroundColor: focused ? "#FFCBCB" : ""
+                }}
+                className='w-14 py-[2] rounded-full flex justify-center items-center'>
 
-            }}>
-                {children}
+                <Ionicons name={iconName} size={size} color={color} />
             </View>
-        </TouchableOpacity>
-    </View>
+            <Text className="text-xs"
+                style={colorActiveText(focused)}>{Maps}</Text>
+        </View>
+
+    const CustomTabBarButtonCircularButton = ({ children, onPress }) =>
+        <View>
+            <TouchableOpacity
+                style={{
+                    top: -30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 60,
+                    height: 60,
+                    borderRadius: 36,
+                    backgroundColor: '#ffffff',
+                    ...styles.shadow
+                }}
+                onPress={onPress}
+            >
+                <View style={{
+
+
+                }}>
+                    {children}
+                </View>
+            </TouchableOpacity>
+        </View>
+
+    const CustomTabBarButton = ({ children, onPress, name }) =>
+        <View>
+            <TouchableOpacity
+                style={{
+                    // top: -30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 40,
+                    height: 40,
+                    // borderRadius: 36,
+                    // backgroundColor: '#ffffff',
+                    ...styles.shadow
+                }}
+                onPress={onPress}
+            >
+                <View style={{
+
+
+                }}>
+                    {children}
+                    <Text></Text>
+                </View>
+            </TouchableOpacity>
+        </View>
 
     return (
         <Nav.Navigator
@@ -88,8 +128,8 @@ function NavBar() {
                     // borderTopRightRadius: 21,
                     // backgroundColor: '#fff',
                 },
-                tabBarActiveTintColor: '#0ff000',
-                tabBarInactiveTintColor: '#d9d9d9',
+                tabBarActiveTintColor: ActiveTintColor,
+                tabBarInactiveTintColor: InactiveTintColor,
 
 
             }}
@@ -99,13 +139,23 @@ function NavBar() {
                 component={RequestsScreen}
                 options={{
                     contentStyle: {},
-                    headerShown: false,
+                    headerShown: true,
+                    headerTintColor: "#fff",
+                        headerStyle:
+                        {
+                            backgroundColor: ActiveTintColor
+                        },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
-
-                            <Ionicons name="heart" size={size} color={color} />
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='mdi:cards-heart' size={size} color={color} />
+                            </View>
                             <Text className="text-xs"
-                            style={colorActiveText(focused)}>Solicitacoes</Text>
+                                style={colorActiveText(focused)}>Solicitações</Text>
                         </View>
                     )
                 }}
@@ -114,10 +164,21 @@ function NavBar() {
                 name='Maps'
                 component={MapsScreen}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTintColor: "#fff",
+                        headerStyle:
+                        {
+                            backgroundColor: ActiveTintColor
+                        },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
-                            <Ionicons name="map" size={size} color={color} />
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='mdi:map-marker' size={size} color={color} />
+                            </View>
                             <Text className="text-xs"
                                 style={colorActiveText(focused)}>Maps</Text>
                         </View>
@@ -129,27 +190,45 @@ function NavBar() {
                 component={HomeScreen}
                 options={{
                     tabBarIcon: ({ focused, size, color }) => (
-                        <View className="">
-                            <Ionicons name="home-sharp" size={size} color={color} />
+                        <View className="flex flex-col items-center">
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='ic:round-home' size={size} color={color} />
+                            </View>
+                            <Text className="text-xs"
+                                style={colorActiveText(focused)}>Home</Text>
                         </View>
 
                     ),
-                    tabBarButton: (props) =>
-                        <CustomTabBarButton {...props} />
-                    ,
+                    // tabBarButton: (props) =>
+                        // <CustomTabBarButtonCircularButton {...props} />
+                    // ,
                 }}
             />
             <Stack.Screen
                 name='Regras'
                 component={RulesScreen}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTintColor: "#fff",
+                        headerStyle:
+                        {
+                            backgroundColor: ActiveTintColor
+                        },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
-
-                            <Ionicons name="list" size={size} color={color} />
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='mdi:file-document-box-multiple' size={size} color={color} />
+                            </View>
                             <Text className="text-xs"
-                            style={colorActiveText(focused)}>Regras</Text>
+                                style={colorActiveText(focused)}>Regras</Text>
                         </View>
                     )
                 }}
@@ -158,20 +237,52 @@ function NavBar() {
                 name='Experiencias'
                 component={ExperiencesScreen}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTintColor: "#fff",
+                    
+                        headerStyle:
+                        {
+                            backgroundColor: ActiveTintColor
+                        },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
-
-                            <Ionicons name="checkmark-circle" size={size} color={color} />
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='ic:sharp-verified' size={size} color={color} />
+                            </View>
                             <Text className="text-xs"
-                            style={colorActiveText(focused)}>Experiencias</Text>
+                                style={colorActiveText(focused)}>Experiencias</Text>
                         </View>
                     )
                 }}
             />
+            <Stack.Screen
+                name="BloodTypes"
+                component={BloodTypesScreen}
+                options={
+                    {
+                        tabBarVisible: false,
+                        headerShown: true,
+                        headerTintColor: "#fff",
+                        headerStyle:
+                        {
+                            backgroundColor: ActiveTintColor,
+                        },
+                        tabBarButton: (props) =>
+                        // <CustomTabBarButtonCircularButton {...props} />
+                        { }
+                        ,
+
+                    }}
+            />
         </Nav.Navigator>
     )
 }
+
+const op = {}
 
 function Routers() {
 
@@ -180,11 +291,11 @@ function Routers() {
     return (
         <NavigationContainer >
             <Stack.Navigator>
-                <Stack.Screen name="test" component={TestPage} />
+                <Nav.Screen options={{ headerShown: false }} name='NavBar' component={NavBar} />
                 <Stack.Screen options={{ headerShown: false }} name='InitialPage' component={InitialPage} />
+                <Stack.Screen name="test" component={TestPage} />
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='SignUp' component={SignUpScreen} />
-                <Nav.Screen options={{ headerShown: false }}  name='NavBar' component={NavBar} />
             </Stack.Navigator>
         </NavigationContainer>
         //   <Login/>

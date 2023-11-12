@@ -3,6 +3,8 @@ import CustomInput from "../assets/components/inputs/customInput";
 import InputGenerator from "../assets/components/inputs/inputGenerator";
 import { useState } from "react";
 import FormGenerator from "../assets/components/formGenerator";
+import { Iconify } from 'react-native-iconify';
+import BloodTypeCard from "../assets/components/cards/bloodTypeCard";
 
 function TestPage() {
     const [dados, setDados] = useState({
@@ -14,13 +16,16 @@ function TestPage() {
             <Text>
                 Test Page
             </Text>
-            <View className="flex-1 bg-white items-center justify-center">
+            
+
+
+            <View className="flex-1  bg-white items-center justify-center">
 
                 <FormGenerator
                     dados={dados}
                     setDados={setDados}
                     buttonName={"Login"}
-                    submitAction={()=>{}}
+                    submitAction={() => { }}
                     info={[
                         {
                             name: "username",
@@ -35,7 +40,7 @@ function TestPage() {
                         },
                     ]}
                 />
-                <CustomInput  value={dados.username}/>
+                <CustomInput value={dados.username} />
             </View>
         </View>
     );
