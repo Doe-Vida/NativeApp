@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import CustomButton from "../../assets/components/buttons/customButton";
 import WhiteButton from "../../assets/components/buttons/whiteButton";
 import CustomInput from "../../assets/components/inputs/customInput";
+import { Link } from "@react-navigation/native";
 
 function InitialPage({ navigation }) {
     const goLogin = () => {
@@ -9,6 +10,9 @@ function InitialPage({ navigation }) {
     }
     const goSignUp = () => {
         navigation.navigate("SignUp")
+    }
+    const goNavBar = () => {
+        navigation.navigate("NavBar")
     }
     return (
         <View className="flex flex-1 flex-col items-center justify-center">
@@ -19,7 +23,9 @@ function InitialPage({ navigation }) {
                 <CustomButton name={"LOGIN"} event={() => goLogin()} />
                 <CustomButton name={"CRIAR CONTA"} event={() => goSignUp()} />
                 <View className="flex flex-row justify-end w-[90%]">
-                    <WhiteButton name={"Seguir sem login"}/>
+                    
+                    
+                    <WhiteButton event={()=>goNavBar()} name={"Seguir sem login"}/>
                     
                 </View>
             </View>

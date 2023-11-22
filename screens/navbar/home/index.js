@@ -4,7 +4,9 @@ import getToken from "../../../assets/services/getToken";
 import * as SecureStore from 'expo-secure-store';
 import apiDoeVida from "../../../assets/services/apiDoeVida";
 import { Ionicons } from "@expo/vector-icons";
+import {  } from 'react-dom'
 import Icon from "react-native-vector-icons"
+import { useNavigationState } from "@react-navigation/native";
 
 function HomeScreen() {
     const [tokenAccess, setTokenAccess] = useState({ username: "", access_token: "", refresh_token: "" })
@@ -29,9 +31,13 @@ function HomeScreen() {
     })
     useEffect(() => {
         pegarToken()
+        printart()
         // setTokenAccess(JSON.parse(getToken()))
 
     }, [])
+    const printart = () => {
+        
+    }
     const pegarUser = () => {
         if (tokenAccess.access_token == "") {
             console.log("null");

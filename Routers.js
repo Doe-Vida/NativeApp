@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { withExpoSnack } from 'nativewind';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { CommonActions, NavigationContainer, TabRouter } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from './screens/login';
@@ -16,13 +16,40 @@ import ExperiencesScreen from './screens/navbar/experiences';
 import TestPage from './screens/test';
 import BloodTypesScreen from './screens/navbar/bloodTypes';
 import { Iconify } from 'react-native-iconify';
+import EditProfileScreen from './screens/navbar/editProfile';
+import OrientationLocker from 'react-native-orientation-locker';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function NavBar() {
+
+
+function NavBar({ navigation, route }) {
     var ActiveTintColor = '#F50057';
     var InactiveTintColor = '#d9d9d9';
+    const MyTabRouter = options => {
+        const router = TabRouter(options)
+        return {
+            ...router,
+            getStateForAction(state, action, options) {
+                switch (action.type) {
+                    case 'CLEAR_HISTORY':
+                        return {
+                            ...state,
+                            routeKeyHistory: [],
+                        };
+                    default:
+                        return router.getStateForAction(state, action, options);
+                }
+            },
+            actionCreators: {
+                ...router.actionCreators,
+                clearHistory() {
+                    return { type: 'CLEAR_HISTORY' };
+                },
+            },
+        };
+    };
     const colorActiveText = (focused) => {
         return { color: focused ? ActiveTintColor : InactiveTintColor }
     }
@@ -57,7 +84,7 @@ function NavBar() {
         </View>
 
     const CustomTabBarButtonCircularButton = ({ children, onPress }) =>
-        <View>
+        <View className="absolute w-screen flex items-center justify-center">
             <TouchableOpacity
                 style={{
                     top: -30,
@@ -77,6 +104,21 @@ function NavBar() {
                 }}>
                     {children}
                 </View>
+            </TouchableOpacity>
+        </View>
+    const CustomHomeMiddle = ({ children, onPress }) =>
+        <View className="absolute w-screen flex items-center justify-center">
+            <TouchableOpacity
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 70,
+                    height: 70,
+                    zIndex:10,
+                }}
+                onPress={onPress}
+            >
+                    {children}
             </TouchableOpacity>
         </View>
 
@@ -104,11 +146,38 @@ function NavBar() {
                 </View>
             </TouchableOpacity>
         </View>
-
+    const resetTotal = () => {
+        // console.log('reseted');
+        // CommonActions.reset({
+        //     routeNames: ["Home","Solicitacoes", "Maps", "Regras", "Experiencias", "BloodTypes"]
+        // })
+        // console.log(navigation.getState())
+    }
+    resetTotal()
     return (
         <Nav.Navigator
+
+            screenListeners={({ navigation, route }) => ({
+                tabPress: (e) => {
+                    console.log('tabPress: ', e.target);
+                },
+                state: (e) => {
+                    // Do something with the state
+                    console.log('state changed: ', e.data);
+                    console.log(route.key);
+                    // Do something with the `navigation` object
+                    if (!navigation.canGoBack()) {
+                        console.log("we're on the initial screen");
+                    }
+                },
+                focus: (e) => {
+                    console.log('focus: ', e.type);
+                }
+            })}
             initialRouteName='Home'
+
             screenOptions={{
+
                 tabBarShowLabel: false,
                 headerShown: false,
 
@@ -134,17 +203,47 @@ function NavBar() {
 
             }}
         >
+<Stack.Screen
+                name='Home'
+                component={HomeScreen}
+                options={{
+                    tabBarIcon: ({ focused, size, color }) => (
+                        <View className="flex flex-col items-center">
+                            <View
+                                style={{
+                                    backgroundColor: focused ? "#FFCBCB" : ""
+                                }}
+                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
+                                <Iconify icon='ic:round-home' size={size} color={color} />
+                            </View>
+                            <Text className="text-xs"
+                                style={colorActiveText(focused)}>Home</Text>
+                        </View>
+
+                    ),
+                    tabBarButton: (props) =>
+                    <CustomHomeMiddle {...props} />
+                    // ,
+                }}
+            />
             <Stack.Screen
                 name='Solicitacoes'
                 component={RequestsScreen}
                 options={{
                     contentStyle: {},
+                    headerRight: () => (
+                        <Button
+                            onPress={() => alert('This is a button!')}
+                            title="Info"
+                            color="#fff"
+                        />
+                    ),
                     headerShown: true,
                     headerTintColor: "#fff",
-                        headerStyle:
-                        {
-                            backgroundColor: ActiveTintColor
-                        },
+                    headerStyle:
+                    {
+                        backgroundColor: ActiveTintColor
+                    },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
                             <View
@@ -166,12 +265,12 @@ function NavBar() {
                 options={{
                     headerShown: true,
                     headerTintColor: "#fff",
-                        headerStyle:
-                        {
-                            backgroundColor: ActiveTintColor
-                        },
+                    headerStyle:
+                    {
+                        backgroundColor: ActiveTintColor
+                    },
                     tabBarIcon: ({ focused, size, color }) => (
-                        <View className="flex flex-col items-center">
+                        <View className="flex flex-col items-center mr-8">
                             <View
                                 style={{
                                     backgroundColor: focused ? "#FFCBCB" : ""
@@ -185,41 +284,19 @@ function NavBar() {
                     )
                 }}
             />
-            <Stack.Screen
-                name='Home'
-                component={HomeScreen}
-                options={{
-                    tabBarIcon: ({ focused, size, color }) => (
-                        <View className="flex flex-col items-center">
-                            <View
-                                style={{
-                                    backgroundColor: focused ? "#FFCBCB" : ""
-                                }}
-                                className='w-14 py-[2] rounded-full flex justify-center items-center'>
-                                <Iconify icon='ic:round-home' size={size} color={color} />
-                            </View>
-                            <Text className="text-xs"
-                                style={colorActiveText(focused)}>Home</Text>
-                        </View>
-
-                    ),
-                    // tabBarButton: (props) =>
-                        // <CustomTabBarButtonCircularButton {...props} />
-                    // ,
-                }}
-            />
+            
             <Stack.Screen
                 name='Regras'
                 component={RulesScreen}
                 options={{
                     headerShown: true,
                     headerTintColor: "#fff",
-                        headerStyle:
-                        {
-                            backgroundColor: ActiveTintColor
-                        },
+                    headerStyle:
+                    {
+                        backgroundColor: ActiveTintColor
+                    },
                     tabBarIcon: ({ focused, size, color }) => (
-                        <View className="flex flex-col items-center">
+                        <View className="flex flex-col items-center ml-8">
                             <View
                                 style={{
                                     backgroundColor: focused ? "#FFCBCB" : ""
@@ -239,11 +316,11 @@ function NavBar() {
                 options={{
                     headerShown: true,
                     headerTintColor: "#fff",
-                    
-                        headerStyle:
-                        {
-                            backgroundColor: ActiveTintColor
-                        },
+
+                    headerStyle:
+                    {
+                        backgroundColor: ActiveTintColor
+                    },
                     tabBarIcon: ({ focused, size, color }) => (
                         <View className="flex flex-col items-center">
                             <View
@@ -259,22 +336,24 @@ function NavBar() {
                     )
                 }}
             />
+
             <Stack.Screen
                 name="BloodTypes"
                 component={BloodTypesScreen}
+                
                 options={
                     {
-                        tabBarVisible: false,
+                        tabBarStyle: { display: 'none' },
                         headerShown: true,
                         headerTintColor: "#fff",
+                        headerLeft: ()=><Button onPress={()=>navigation.navigate("Solicitacoes")} title='<'></Button>,
                         headerStyle:
                         {
                             backgroundColor: ActiveTintColor,
                         },
                         tabBarButton: (props) =>
                         // <CustomTabBarButtonCircularButton {...props} />
-                        { }
-                        ,
+                        { },
 
                     }}
             />
@@ -291,8 +370,20 @@ function Routers() {
     return (
         <NavigationContainer >
             <Stack.Navigator>
-                <Nav.Screen options={{ headerShown: false }} name='NavBar' component={NavBar} />
                 <Stack.Screen options={{ headerShown: false }} name='InitialPage' component={InitialPage} />
+                <Nav.Screen
+                    options={{ headerShown: false }}
+                    name='NavBar' component={NavBar} />
+                <Stack.Screen
+                    name="EditProfile"
+                    component={EditProfileScreen}
+                    options={
+                        {
+                            tabBarStyle: { display: 'none' },
+                            headerShown: true,
+                            headerTintColor: "#fff",
+                        }}
+                />
                 <Stack.Screen name="test" component={TestPage} />
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='SignUp' component={SignUpScreen} />

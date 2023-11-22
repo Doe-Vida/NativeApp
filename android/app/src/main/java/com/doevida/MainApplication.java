@@ -18,6 +18,10 @@ import expo.modules.ReactNativeHostWrapper;
 
 import java.util.List;
 
+import org.wonday.orientation.OrientationActivityLifecycle;
+
+import com.github.yamill.orientation.OrientationPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -31,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
       protected List<ReactPackage> getPackages() {
         @SuppressWarnings("UnnecessaryLocalVariable")
         List<ReactPackage> packages = new PackageList(this).getPackages();
+        packages.add(new OrientationPackage())
         // Packages that cannot be autolinked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
         return packages;
@@ -59,6 +64,7 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+    registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     if (!BuildConfig.REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS) {

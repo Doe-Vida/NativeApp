@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { BackHandler, View } from "react-native";
 import BloodTypeCard from "../../../assets/components/cards/bloodTypeCard";
 import { useEffect } from "react";
 
@@ -15,7 +15,20 @@ function BloodTypesScreen({ navigation }) {
     //         tabBarStyle: undefined
     //     });
     // }, [navigation])
-
+    useEffect(() => {
+        const backAction = () => {
+          navigation.navigate("Solicitacoes")
+          return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+          'hardwareBackPress',
+          backAction,
+        );
+    
+        return () => backHandler.remove();
+      }, []);
+    
     return (
         <View>
             {bloodTypes.map((v, i) =>

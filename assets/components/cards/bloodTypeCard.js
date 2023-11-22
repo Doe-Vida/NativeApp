@@ -3,7 +3,7 @@ import { Iconify } from "react-native-iconify";
 
 
 
-function BloodTypeCard({ type = "A+" }) {
+function BloodTypeCard({ type }) {
 
     switch (type.toUpperCase()) {
         case "A+":
@@ -47,7 +47,7 @@ function BloodTypeCard({ type = "A+" }) {
         <View className='w-10/12 border border-gray-110 rounded-2xl flex flex-row items-center p-2'>
             <View className='flex justify-center items-center mr-3'>
                 <View className='absolute z-50'>
-                    <Text className=' -mt-2 text-white font-semibold text-2xl'>A+</Text>
+                    <Text className=' -mt-2 text-white font-semibold text-2xl'>{type}</Text>
                 </View>
                 <Iconify icon="mdi:cards-heart" size={75} color="#F50057" />
             </View>
