@@ -8,62 +8,11 @@ import { } from 'react-dom'
 import Icon from "react-native-vector-icons"
 import { useFocusEffect, useNavigationState } from "@react-navigation/native";
 import useSession from "../../../assets/services/apiToken";
+import { Iconify } from "react-native-iconify";
 
 function HomeScreen({ navigation }) {
-    // const [tokenAccess, setTokenAccess] = useState({ username: "", access_token: "", refresh_token: "" })
     const { user } = useSession(navigation)
-    // const pegarUser = () => {
-    //     if (tokenAccess.access_token == "") {
-    //         console.log("null");
-    //         return
-    //     }
-    //     // console.log("loading...");
-    //     apiDoeVida.get(`users/${tokenAccess.username}`, { headers: { Authorization: "Bearer " + tokenAccess.access_token } })
-    //         .then((res) => {
-    //             if (res.data['data'] == undefined) {
-    //                 alert('error')
-    //                 return
-    //             }
-    //             setUser(res.data['data'])
-    //         })
-    //         .catch((res) => {
-    //             console.log(res.response);
-    //         })
-    // }
-    // const pegarToken = async () => {
-    //     await SecureStore.getItemAsync("token").then(res => {
-    //         // console.log(res);
-    //         setTokenAccess(JSON.parse(res))
-    //     })
-    // }
-    // const [user, setUser] = useState({
-    //     "birthdate": null,
-    //     "blood_type": null,
-    //     "city": null,
-    //     "comments": "[]",
-    //     "date_last_donation": null,
-    //     "donations_orders": "[]",
-    //     "first_name": null,
-    //     "id": "0",
-    //     "last_name": null,
-    //     "password": "",
-    //     "phone": null,
-    //     "posts": "[]",
-    //     "qty_donations": null,
-    //     "sex": null,
-    //     "state": null,
-    //     "username": "username@username.com",
-    // })
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         pegarToken()
-    //     }, [])
-    // )
     
-    // useEffect(() => {
-    //     // console.log(tokenAccess);
-    //     pegarUser()
-    // }, [tokenAccess])
 
     const goEditPerfil = () => {
         navigation.navigate('EditProfile')
@@ -119,10 +68,7 @@ function HomeScreen({ navigation }) {
             '></View> */}
                 {/* <View className="w-48 h-[50%] bg-white"></View> */}
                 <TouchableOpacity onPress={() => goEditPerfil()} className='w-14 h-14 rounded-full bg-white flex items-center justify-center absolute right-10'>
-                    <Ionicons name="person-outline" color={"#ff0000"} size={30} />
-                    <View className='absolute right-1 bottom-1'>
-                        <Ionicons name="pencil" color={"#ff0000"} size={30} />
-                    </View>
+                <Iconify icon="mingcute:user-edit-line" size={40} color={"#ff0000"}></Iconify>
                 </TouchableOpacity>
             </View>
             <View className='bg-white h-[65%] w-full rounded-t-3xl flex flex-col'>

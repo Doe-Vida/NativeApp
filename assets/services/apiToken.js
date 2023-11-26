@@ -1,9 +1,12 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import * as SecureStore from 'expo-secure-store';
 import apiDoeVida from "./apiDoeVida";
+import { Alert } from "react-native";
 
 function useSession(navigation) {
+    const [att, setAtt] = useState(false)
+    const [count, setCount] = useState(0)
     const [token, setToken] = useState({
         username: "loading...",
         access_token: "loading...",
@@ -32,18 +35,19 @@ function useSession(navigation) {
 
     useFocusEffect(
         useCallback(() => {
-            console.log("aaaaaa");
             SecureStore.getItemAsync("token")
                 .then(res => {
-                    console.log("res:");
-                    setToken(JSON.parse(res))
-                    res = JSON.parse(res)
-                    console.log("^^^^^^");
-                    if (res.access_token == "") {
+                    if (res == "" || res == null) {
                         console.log("null");
+                        setToken({ ...token, "username": "Convidado" })
+                        setUser({ ...user, "username": "Convidado" })
                         return
                     }
+                    console.log(res);
+                    res = JSON.parse(res)
+                    setToken(res)
                     console.log("loading...");
+                    // apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
                     apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
                         .then((res) => {
                             console.log(res.data)
@@ -53,16 +57,63 @@ function useSession(navigation) {
                             }
                             setUser(res.data['data'])
                         })
-                        .catch(res => {
-                            // console.log(res);
+                        .catch(error_get => {
+                            console.log(res);
+                            count > 5 ?
+                                Alert.alert(
+                                    'Oops houve um erro.',
+                                    'Não foi possivel acessar a sua conta',
+                                    [
+                                        {
+                                            text: 'Voltar ao inicio',
+                                            onPress: () => navigation.navigate("InitialPage"),
+                                            style: 'ok',
+                                        },
+                                    ],
+                                    {
+                                        cancelable: false,
+                                    },
+                                )
+                                :
+                                apiDoeVida.post('refresh', {}, { headers: { Authorization: "Bearer " + res.refresh_token } })
+                                    .then((res_refresh) => {
+                                        console.log(count)
+                                        SecureStore.setItemAsync("token", JSON.stringify({ "username": token.username, "refresh_token": res.refresh_token, "access_token": res_refresh.data['data'].access_token }))
+                                        setCount(count + 1)
+                                        setAtt(!att)
+                                    })
+                                    .catch((er) => {
+                                        console.log(er);
+                                        Alert.alert(
+                                            'Sua seção expirou!',
+                                            'Deseja fazer login novamente ou continuar como convidado?',
+                                            [
+                                                {
+                                                    text: 'Continuar',
+                                                    onPress: () => {
+                                                        SecureStore.deleteItemAsync("token")
+                                                        setAtt(!att)
+                                                    },
+                                                    style: 'cancel',
+                                                },
+                                                {
+                                                    text: 'Fazer Login',
+                                                    onPress: () => navigation.navigate("Login"),
+                                                    style: 'ok',
+                                                },
+                                            ],
+                                            {
+                                                cancelable: false,
+                                            },
+                                        )
+                                    })
+                            // alert('Your session has expired')
+                            // SecureStore.deleteItemAsync("token");
 
-                            alert('Your session has expired')
-                            SecureStore.deleteItemAsync("token");
-
-                            navigation.navigate('Login');
+                            // navigation.navigate('Login');
                         })
                 })
-        }, [])
+        }, [att])
     )
     // useFocusEffect(
     //     useCallback(()=>{

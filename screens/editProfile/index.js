@@ -46,7 +46,7 @@ function EditProfileScreen({ navigation }) {
     //     }
     // ,[])
 
-    const [userEdit, setUserEdit] = useState({
+    const [_user, _setUser] = useState({
         birthdate: "",
         blood_type: "",
         city: "",
@@ -66,12 +66,12 @@ function EditProfileScreen({ navigation }) {
         useCallback(()=>{
             console.log(">>>>>>>>>>>");
             console.log(user);
-            setUserEdit(user)
+            _setUser(user)
         },[user])
     )
 
     const putUser = () => {console.log("inicializing...");
-        apiDoeVida.put(`users/${token.username}`, userEdit, {
+        apiDoeVida.put(`users/${token.username}`, _user, {
             headers:{
                 Authorization: "Bearer " + token.access_token
             }
@@ -112,7 +112,7 @@ function EditProfileScreen({ navigation }) {
                 ]}
                 buttonName={"SALVAR"}
                 submitAction={putUser}
-                dados={userEdit} setDados={setUserEdit} />
+                dados={_user} setDados={_setUser} />
         </View>
     );
 }
