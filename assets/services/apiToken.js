@@ -32,32 +32,37 @@ function useSession(navigation) {
 
     useFocusEffect(
         useCallback(() => {
-        console.log("aaaaaa");
-        SecureStore.getItemAsync("token")
-            .then(res => {
-                console.log("res:");
-                setToken(JSON.parse(res))
-                res = JSON.parse(res)
-                console.log("^^^^^^");
-                if (res.access_token == "") {
-                    console.log("null");
-                    return
-                }
-                console.log("loading...");
-                apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
-                .then((res) => {
-                    console.log(res.data)
-                    if (res.data['data'] == undefined){
-                        alert('error')
+            console.log("aaaaaa");
+            SecureStore.getItemAsync("token")
+                .then(res => {
+                    console.log("res:");
+                    setToken(JSON.parse(res))
+                    res = JSON.parse(res)
+                    console.log("^^^^^^");
+                    if (res.access_token == "") {
+                        console.log("null");
                         return
                     }
-                    setUser(res.data['data'])
+                    console.log("loading...");
+                    apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
+                        .then((res) => {
+                            console.log(res.data)
+                            if (res.data['data'] == undefined) {
+                                alert('error')
+                                return
+                            }
+                            setUser(res.data['data'])
+                        })
+                        .catch(res => {
+                            // console.log(res);
+
+                            alert('Your session has expired')
+                            SecureStore.deleteItemAsync("token");
+
+                            navigation.navigate('Login');
+                        })
                 })
-                .catch((res) => {
-                    console.log(res.response);
-                })
-            })
-    }, [])
+        }, [])
     )
     // useFocusEffect(
     //     useCallback(()=>{
