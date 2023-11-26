@@ -1,73 +1,73 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, StatusBar, Image, TouchableOpacity, ScrollView } from "react-native";
 import getToken from "../../../assets/services/getToken";
 import * as SecureStore from 'expo-secure-store';
 import apiDoeVida from "../../../assets/services/apiDoeVida";
 import { Ionicons } from "@expo/vector-icons";
-import {  } from 'react-dom'
+import { } from 'react-dom'
 import Icon from "react-native-vector-icons"
-import { useNavigationState } from "@react-navigation/native";
+import { useFocusEffect, useNavigationState } from "@react-navigation/native";
+import useSession from "../../../assets/services/apiToken";
 
-function HomeScreen() {
-    const [tokenAccess, setTokenAccess] = useState({ username: "", access_token: "", refresh_token: "" })
-    const [user, setUser] = useState({
-        "birthdate": null,
-        "blood_type": null,
-        "city": null,
-        "comments": "[]",
-        "date_last_donation": null,
-        "donations_orders": "[]",
-        "first_name": null,
-        "id": "0",
-        "last_name": null,
-        "password": "",
-        "phone": null,
-        "posts": "[]",
-        "qty_donations": null,
-        "sex": null,
-        "state": null,
-        "username": "username@username.com",
+function HomeScreen({ navigation }) {
+    // const [tokenAccess, setTokenAccess] = useState({ username: "", access_token: "", refresh_token: "" })
+    const { user } = useSession(navigation)
+    // const pegarUser = () => {
+    //     if (tokenAccess.access_token == "") {
+    //         console.log("null");
+    //         return
+    //     }
+    //     // console.log("loading...");
+    //     apiDoeVida.get(`users/${tokenAccess.username}`, { headers: { Authorization: "Bearer " + tokenAccess.access_token } })
+    //         .then((res) => {
+    //             if (res.data['data'] == undefined) {
+    //                 alert('error')
+    //                 return
+    //             }
+    //             setUser(res.data['data'])
+    //         })
+    //         .catch((res) => {
+    //             console.log(res.response);
+    //         })
+    // }
+    // const pegarToken = async () => {
+    //     await SecureStore.getItemAsync("token").then(res => {
+    //         // console.log(res);
+    //         setTokenAccess(JSON.parse(res))
+    //     })
+    // }
+    // const [user, setUser] = useState({
+    //     "birthdate": null,
+    //     "blood_type": null,
+    //     "city": null,
+    //     "comments": "[]",
+    //     "date_last_donation": null,
+    //     "donations_orders": "[]",
+    //     "first_name": null,
+    //     "id": "0",
+    //     "last_name": null,
+    //     "password": "",
+    //     "phone": null,
+    //     "posts": "[]",
+    //     "qty_donations": null,
+    //     "sex": null,
+    //     "state": null,
+    //     "username": "username@username.com",
+    // })
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         pegarToken()
+    //     }, [])
+    // )
+    
+    // useEffect(() => {
+    //     // console.log(tokenAccess);
+    //     pegarUser()
+    // }, [tokenAccess])
 
-    })
-    useEffect(() => {
-        pegarToken()
-        printart()
-        // setTokenAccess(JSON.parse(getToken()))
-
-    }, [])
-    const printart = () => {
-        
+    const goEditPerfil = () => {
+        navigation.navigate('EditProfile')
     }
-    const pegarUser = () => {
-        if (tokenAccess.access_token == "") {
-            console.log("null");
-            return
-        }
-        console.log("loading...");
-        apiDoeVida.get(`users/${tokenAccess.username}`, { headers: { Authorization: "Bearer " + tokenAccess.access_token } })
-            .then((res) => {
-                console.log(res.data)
-                if (res.data['data'] == undefined){
-                    alert('error')
-                    return
-                }
-                setUser(res.data['data'])
-            })
-            .catch((res) => {
-                console.log(res.response);
-            })
-    }
-    const pegarToken = async () => {
-        await SecureStore.getItemAsync("token").then(res => {
-            // console.log(res);
-            setTokenAccess(JSON.parse(res))
-        })
-    }
-
-    useEffect(() => {
-        console.log(tokenAccess);
-        pegarUser()
-    }, [tokenAccess])
 
     return (
         <View className="flex-1  bg-pink-primary ">
@@ -83,7 +83,17 @@ function HomeScreen() {
                         <Image source={require("../../../assets/images/user_default.png")} className="h-[90px] w-[90px] bg-black rounded-full"></Image>
                     </View>
                     <View className="">
-                        <Text className="font-bold  text-white">{user.first_name != null ? user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1) + " " + (user.last_name != null ? user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1) : "") : user.username}</Text>
+                        <Text className="font-bold  text-white">
+                            {user.first_name?
+                                user.first_name.charAt(0).toUpperCase()
+                                + user.first_name.slice(1)
+                                + " "
+                                + (user.last_name?
+                                    user.last_name.charAt(0).toUpperCase()
+                                    + user.last_name.slice(1) : "")
+                                : user.username ?? ''}
+                        </Text>
+
                         <Text className='text-white'>{user.qty_donations ?? 0} doações realizadas</Text>
                     </View>
                 </View>
@@ -108,7 +118,7 @@ function HomeScreen() {
             bottom-0
             '></View> */}
                 {/* <View className="w-48 h-[50%] bg-white"></View> */}
-                <TouchableOpacity className='w-14 h-14 rounded-full bg-white flex items-center justify-center absolute right-10'>
+                <TouchableOpacity onPress={() => goEditPerfil()} className='w-14 h-14 rounded-full bg-white flex items-center justify-center absolute right-10'>
                     <Ionicons name="person-outline" color={"#ff0000"} size={30} />
                     <View className='absolute right-1 bottom-1'>
                         <Ionicons name="pencil" color={"#ff0000"} size={30} />

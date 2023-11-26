@@ -3,7 +3,7 @@ import CustomButton from "../../assets/components/buttons/customButton";
 import WhiteButton from "../../assets/components/buttons/whiteButton";
 import CustomInput from "../../assets/components/inputs/customInput";
 import { Link } from "@react-navigation/native";
-
+import * as SecureStore from 'expo-secure-store';
 function InitialPage({ navigation }) {
     const goLogin = () => {
         navigation.navigate("Login")
@@ -23,10 +23,13 @@ function InitialPage({ navigation }) {
                 <CustomButton name={"LOGIN"} event={() => goLogin()} />
                 <CustomButton name={"CRIAR CONTA"} event={() => goSignUp()} />
                 <View className="flex flex-row justify-end w-[90%]">
-                    
-                    
-                    <WhiteButton event={()=>goNavBar()} name={"Seguir sem login"}/>
-                    
+
+
+                    <WhiteButton event={() => {
+                        SecureStore.setItemAsync("token", '')
+                            .then(() => goNavBar())
+                    }} name={"Seguir sem login"} />
+
                 </View>
             </View>
         </View>

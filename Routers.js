@@ -16,17 +16,17 @@ import ExperiencesScreen from './screens/navbar/experiences';
 import TestPage from './screens/test';
 import BloodTypesScreen from './screens/navbar/bloodTypes';
 import { Iconify } from 'react-native-iconify';
-import EditProfileScreen from './screens/navbar/editProfile';
+import EditProfileScreen from './screens/editProfile';
 import OrientationLocker from 'react-native-orientation-locker';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
+const ActiveTintColor = '#F50057';
+const InactiveTintColor = '#d9d9d9';
 
 function NavBar({ navigation, route }) {
-    var ActiveTintColor = '#F50057';
-    var InactiveTintColor = '#d9d9d9';
     const MyTabRouter = options => {
         const router = TabRouter(options)
         return {
@@ -114,11 +114,11 @@ function NavBar({ navigation, route }) {
                     alignItems: 'center',
                     width: 70,
                     height: 70,
-                    zIndex:10,
+                    zIndex: 10,
                 }}
                 onPress={onPress}
             >
-                    {children}
+                {children}
             </TouchableOpacity>
         </View>
 
@@ -156,24 +156,23 @@ function NavBar({ navigation, route }) {
     resetTotal()
     return (
         <Nav.Navigator
-
-            screenListeners={({ navigation, route }) => ({
-                tabPress: (e) => {
-                    console.log('tabPress: ', e.target);
-                },
-                state: (e) => {
-                    // Do something with the state
-                    console.log('state changed: ', e.data);
-                    console.log(route.key);
-                    // Do something with the `navigation` object
-                    if (!navigation.canGoBack()) {
-                        console.log("we're on the initial screen");
-                    }
-                },
-                focus: (e) => {
-                    console.log('focus: ', e.type);
-                }
-            })}
+            // screenListeners={({ navigation, route }) => ({
+            //     tabPress: (e) => {
+            //         console.log('tabPress: ', e.target);
+            //     },
+            //     state: (e) => {
+            //         // Do something with the state
+            //         console.log('state changed: ', e.data);
+            //         console.log(route.key);
+            //         // Do something with the `navigation` object
+            //         if (!navigation.canGoBack()) {
+            //             console.log("we're on the initial screen");
+            //         }
+            //     },
+            //     focus: (e) => {
+            //         console.log('focus: ', e.type);
+            //     }
+            // })}
             initialRouteName='Home'
 
             screenOptions={{
@@ -203,7 +202,7 @@ function NavBar({ navigation, route }) {
 
             }}
         >
-<Stack.Screen
+            <Stack.Screen
                 name='Home'
                 component={HomeScreen}
                 options={{
@@ -222,7 +221,7 @@ function NavBar({ navigation, route }) {
 
                     ),
                     tabBarButton: (props) =>
-                    <CustomHomeMiddle {...props} />
+                        <CustomHomeMiddle {...props} />
                     // ,
                 }}
             />
@@ -232,11 +231,12 @@ function NavBar({ navigation, route }) {
                 options={{
                     contentStyle: {},
                     headerRight: () => (
-                        <Button
-                            onPress={() => alert('This is a button!')}
-                            title="Info"
-                            color="#fff"
-                        />
+                        <TouchableOpacity
+                        className='p-4 '
+                            onPress={() => navigation.navigate("BloodTypes")}
+                        >
+                            <Iconify icon='mdi:hand-heart'></Iconify>
+                        </TouchableOpacity>
                     ),
                     headerShown: true,
                     headerTintColor: "#fff",
@@ -284,7 +284,7 @@ function NavBar({ navigation, route }) {
                     )
                 }}
             />
-            
+
             <Stack.Screen
                 name='Regras'
                 component={RulesScreen}
@@ -337,26 +337,7 @@ function NavBar({ navigation, route }) {
                 }}
             />
 
-            <Stack.Screen
-                name="BloodTypes"
-                component={BloodTypesScreen}
-                
-                options={
-                    {
-                        tabBarStyle: { display: 'none' },
-                        headerShown: true,
-                        headerTintColor: "#fff",
-                        headerLeft: ()=><Button onPress={()=>navigation.navigate("Solicitacoes")} title='<'></Button>,
-                        headerStyle:
-                        {
-                            backgroundColor: ActiveTintColor,
-                        },
-                        tabBarButton: (props) =>
-                        // <CustomTabBarButtonCircularButton {...props} />
-                        { },
 
-                    }}
-            />
         </Nav.Navigator>
     )
 }
@@ -382,6 +363,29 @@ function Routers() {
                             tabBarStyle: { display: 'none' },
                             headerShown: true,
                             headerTintColor: "#fff",
+                            headerStyle:
+                            {
+                                backgroundColor: ActiveTintColor,
+                            },
+                        }}
+                />
+                <Stack.Screen
+                    name="BloodTypes"
+                    component={BloodTypesScreen}
+
+                    options={
+                        {
+                            tabBarStyle: { display: 'none' },
+                            headerShown: true,
+                            headerTintColor: "#fff",
+                            headerStyle:
+                            {
+                                backgroundColor: ActiveTintColor,
+                            },
+                            // tabBarButton: (props) =>
+                            // // <CustomTabBarButtonCircularButton {...props} />
+                            // { },
+
                         }}
                 />
                 <Stack.Screen name="test" component={TestPage} />
