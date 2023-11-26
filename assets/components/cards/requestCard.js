@@ -35,7 +35,7 @@ function RequestCard( {request = req} ) {
                 <Text className='font-semibold'>qtdBloodBags: <Text className='font-normal'>{ request.qtdBloodBags }</Text></Text>
             </View>
             <View className='flex flex-row items-center w-full justify-end'>
-                <TouchableOpacity className='flex flex-row items-center'>
+                <TouchableOpacity onPress={()=>setClicked(!clicked)} className='flex flex-row items-center'>
                 <Text>{ request.date }</Text>
                 {
                     clicked?
