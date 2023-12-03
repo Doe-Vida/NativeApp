@@ -44,7 +44,7 @@ function BloodTypeCard({ type }) {
             break;
     }
     return (
-        <View className='w-10/12 border border-gray-110 rounded-2xl flex flex-row items-center p-2'>
+        <View className='w-full border border-gray-110 rounded-2xl flex flex-row items-center p-2'>
             <View className='flex justify-center items-center mr-3'>
                 <View className='absolute z-50'>
                     <Text className=' -mt-2 text-white font-semibold text-2xl'>{type}</Text>

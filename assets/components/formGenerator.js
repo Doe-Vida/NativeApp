@@ -9,6 +9,9 @@ const infotype = {
     min: 0,
     max: 0,
     type: "",
+    customClass:"",
+    data:[{ label: 'label', value: 'value' }],
+    date: false,
     specificValidator: () => { },
     placeholder: "",
     isPassword: false,
@@ -39,7 +42,7 @@ function FormGenerator({ dados, setDados, info = [infotype], submitAction = () =
     return (
         <View className='flex w-[100%] justify-evenly items-center '>
             <View className="w-5/6">
-                <InputGenerator ref={childRef} dados={dados} setDados={setDados} info={info} errors={errors} setErrors={setErrors} />
+                <InputGenerator ref={childRef} dados={dados} setDados={setDados} info={info} errors={errors} setErrors={setErrors}  />
             </View>
             {/* <View className="p-2"></View> */}
             <View className="flex flex-row w-[100%] justify-around items-center " >

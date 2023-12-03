@@ -7,9 +7,9 @@ import apiDoeVida from "../../assets/services/apiDoeVida";
 
 function SignUpScreen({navigation}) {
     const [dados, setDados] = useState({
-        email: '',
-        password: '',
-        confirmPassword: ''
+        username: 'meira.gm@hotmail.com',
+        password: "SenhaForte",
+        confirmPassword: "SenhaForte"
     })
 
     const passwordCheck = () =>{
@@ -26,13 +26,14 @@ function SignUpScreen({navigation}) {
         */
         apiDoeVida.post('users', {
             "password": dados.password,
-            "username": dados.email    
+            "username": dados.username    
         }).then(res => {
+            console.log(res);
             Alert.alert("Sucesso", "Conta criada com sucesso!", [{
                 text:"ok",
                 onPress: ()=> navigation.navigate("Login")
             }])
-            alert("Conta criada com sucesso!"); 
+            // alert("Conta criada com sucesso!"); 
             }).catch(res => console.log(JSON.stringify(res.response.data)))
     }
 
@@ -46,7 +47,7 @@ function SignUpScreen({navigation}) {
                     setDados={setDados}
                     info={
                         [
-                            { name: "email", placeholder: "E-mail", req: true },
+                            { name: "username", placeholder: "E-mail", req: true },
                             { name: "password", placeholder: "Senha", isPassword:true, req: true, min: 6, specificValidator: passwordCheck() },
                             { name: "confirmPassword", placeholder: "Confirmar Senha", isPassword:true, req: true, specificValidator: (e)=> confirmPasswordCheck(e) },
                         ]
@@ -56,7 +57,7 @@ function SignUpScreen({navigation}) {
             </View>
             <View className="flex flex-row w-full text-center items-center justify-center">
                 <View className="w-24 mx-2 h-[3px] rounded-full bg-gray-220"></View>
-                <Text className='text-gray-110'>Ou entre com</Text>
+                <Text className='text-gray-110'>Ou entre coma</Text>
                 <View className="w-24 mx-2 h-[3px] rounded-full bg-gray-220"></View>
             </View>
             <View className='flex flex-row w-32 justify-between'>

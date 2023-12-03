@@ -1,5 +1,5 @@
 import { Link } from "@react-navigation/native";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useState } from "react";
 // import CustomButton from "../../assets/components/buttons/customButton";
@@ -9,6 +9,24 @@ import * as SecureStore from 'expo-secure-store';
 
 
 function LoginScreen({ navigation }) {
+    const [hide, setHide] = useState(true)
+  
+
+    const Modal = () => hide ? <View></View> :
+        <View className='absolute h-full w-full'>
+            <TouchableOpacity onPress={() => setHide(true)} className='bg-[#0000008c] z-40 flex h-full w-full items-center justify-center'>
+            </TouchableOpacity>
+            <View className='absolute w-full h-full flex items-center justify-center'>
+                <View className='bg-white flex z-50 p-16 rounded'>
+                    <ActivityIndicator size={"large"}></ActivityIndicator>
+                    <Text className='text-center'>
+                        Carregando
+                    </Text>
+                </View>
+
+
+            </View>
+        </View>
 
     const [dados, setDados] = useState({
         username: "meira.gmrm@hotmail.com",
@@ -18,6 +36,7 @@ function LoginScreen({ navigation }) {
     
     const logar = async() => {
         console.log("connecting...");
+        setHide(false)
         apiDoeVida.post('login', dados)
         .then(async(res)=>{
             console.log(res.data['data']);
@@ -25,10 +44,15 @@ function LoginScreen({ navigation }) {
             // await setToken(JSON.stringify(res.data.data))
             navigation.navigate("NavBar");
         })
-        .catch(res=>alert(JSON.stringify(res.response.data)))
+        .catch(res=>
+            // alert(JSON.stringify(res.response.data))
+            alert("Usuario ou senha errado")
+            )
+        .finally(()=>setHide(true))
     }
     return (
         <View className="flex-1 items-center justify-center ">
+            <Modal></Modal>
             <View className="flex items-center w-10/12 p-2 rounded-xl">
             <Image className="w-72 h-72" source={require('../../assets/images/doctors.png')}></Image>
             {/* 
@@ -94,7 +118,7 @@ function LoginScreen({ navigation }) {
                     ]}
                 />
             </View>
-            <TouchableOpacity onPress={() => { navigation.navigate("NavBar"); }} className='bg-slate-100 p-2 rounded-full'>
+            {/* <TouchableOpacity onPress={() => { navigation.navigate("NavBar"); }} className='bg-slate-100 p-2 rounded-full'>
                 <Text>Logar</Text>
             </TouchableOpacity>
             <Link to={"/NavBar"} >
@@ -103,7 +127,7 @@ function LoginScreen({ navigation }) {
                         Logar
                     </Text>
                 </View>
-            </Link>
+            </Link> */}
 
         </View>
     );

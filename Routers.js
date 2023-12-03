@@ -18,6 +18,7 @@ import BloodTypesScreen from './screens/navbar/bloodTypes';
 import { Iconify } from 'react-native-iconify';
 import EditProfileScreen from './screens/editProfile';
 import OrientationLocker from 'react-native-orientation-locker';
+import RequestScreen from './screens/request';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -230,12 +231,13 @@ function NavBar({ navigation, route }) {
                 component={RequestsScreen}
                 options={{
                     contentStyle: {},
+                    headerTitle:"Solicitações",
                     headerRight: () => (
                         <TouchableOpacity
                         className='p-4 '
                             onPress={() => navigation.navigate("BloodTypes")}
                         >
-                            <Iconify icon='mdi:hand-heart'></Iconify>
+                            <Iconify icon='mdi:hand-heart' color={'white'}></Iconify>
                         </TouchableOpacity>
                     ),
                     headerShown: true,
@@ -265,6 +267,7 @@ function NavBar({ navigation, route }) {
                 options={{
                     headerShown: true,
                     headerTintColor: "#fff",
+                    headerTitle:"Mapa",
                     headerStyle:
                     {
                         backgroundColor: ActiveTintColor
@@ -316,7 +319,7 @@ function NavBar({ navigation, route }) {
                 options={{
                     headerShown: true,
                     headerTintColor: "#fff",
-
+                    headerTitle:"Experiências",
                     headerStyle:
                     {
                         backgroundColor: ActiveTintColor
@@ -363,6 +366,7 @@ function Routers() {
                             tabBarStyle: { display: 'none' },
                             headerShown: true,
                             headerTintColor: "#fff",
+                            headerTitle:"Editar Perfil",
                             headerStyle:
                             {
                                 backgroundColor: ActiveTintColor,
@@ -378,6 +382,27 @@ function Routers() {
                             tabBarStyle: { display: 'none' },
                             headerShown: true,
                             headerTintColor: "#fff",
+                            headerTitle:"Tipos Sanguíneos",
+                            headerStyle:
+                            {
+                                backgroundColor: ActiveTintColor,
+                            },
+                            // tabBarButton: (props) =>
+                            // // <CustomTabBarButtonCircularButton {...props} />
+                            // { },
+
+                        }}
+                />
+                <Stack.Screen
+                    name="Request"
+                    component={RequestScreen}
+
+                    options={
+                        {
+                            tabBarStyle: { display: 'none' },
+                            headerShown: true,
+                            headerTintColor: "#fff",
+                            headerTitle:"Solicitar Doação",
                             headerStyle:
                             {
                                 backgroundColor: ActiveTintColor,

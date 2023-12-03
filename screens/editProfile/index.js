@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useCallback, useEffect, useState } from "react";
 import apiDoeVida from "../../assets/services/apiDoeVida"
@@ -63,55 +63,95 @@ function EditProfileScreen({ navigation }) {
     // // username: "jeffersondsad"
     const { user, token } = useSession(navigation)
     useFocusEffect(
-        useCallback(()=>{
+        useCallback(() => {
             console.log(">>>>>>>>>>>");
             console.log(user);
+            console.log(token)
             _setUser(user)
-        },[user])
+        }, [user])
     )
 
-    const putUser = () => {console.log("inicializing...");
+    const commit = () => {
+        if (token.access_token == "Loading..." || token.access_token == null) {
+            Alert.alert(
+                "Atenção!",
+                "Voce precisa estar logado para isso",
+                [
+                    {
+                        text: 'Ok',
+                        onPress: () => { },
+                        style: 'ok',
+                    },
+                ],
+                {
+                    cancelable: true,
+                },
+            )
+        } else {
+            putUser()
+        }
+    }
+
+    const putUser = () => {
+        console.log("inicializing...");
         apiDoeVida.put(`users/${token.username}`, _user, {
-            headers:{
+            headers: {
                 Authorization: "Bearer " + token.access_token
             }
         })
-        .then((res)=>{
-            console.log(res.data);
-        })
+            .then((res) => {
+                console.log(res.data);
+            })
     }
+    const bloodTypes = [
+        // { label: 'nullify', value: null },
+        { label: 'A+', value: 'A+' },
+        { label: 'A-', value: 'A-' },
+        { label: 'B+', value: 'B+' },
+        { label: 'B-', value: 'B-' },
+        { label: 'AB+', value: 'AB+' },
+        { label: 'AB-', value: 'AB-' },
+        { label: 'O+', value: 'O+' },
+        { label: 'O-', value: 'O-' },
+    ];
+    const estados = [
+        { label: 'SP', value: 'SP' },
+        { label: 'MG', value: 'MG' },
+        { label: 'BH', value: 'BH' },
+        { label: 'AM', value: 'AM' },
+    ]
     return (
         <View>
-            <Text>edit profile</Text>
+            <View className='h-3 w-full'></View>
             <FormGenerator
-            // "default", 
-            // 'numeric', 
-            // 'email-address', 
-            // "ascii-capable", 
-            // 'numbers-and-punctuation', 
-            // 'url', 
-            // 'number-pad', 
-            // 'phone-pad', 
-            // 'name-phone-pad', 
-            // 'decimal-pad', 
-            // 'twitter', 
-            // 'web-search', 
-            // 'visible-password'
+                // "default", 
+                // 'numeric', 
+                // 'email-address', 
+                // "ascii-capable", 
+                // 'numbers-and-punctuation', 
+                // 'url', 
+                // 'number-pad', 
+                // 'phone-pad', 
+                // 'name-phone-pad', 
+                // 'decimal-pad', 
+                // 'twitter', 
+                // 'web-search', 
+                // 'visible-password'
                 info={[
                     { name: "first_name", placeholder: "Primeiro Nome" },
                     { name: "last_name", placeholder: "Último Nome" },
-                    { name: "phone", placeholder: "Celucar", type: "phone-pad" },
-                    { name: "blood_type", placeholder: "Tipo Sanguineo" },
+                    { name: "phone", placeholder: "Celular", type: "phone-pad" },
+                    { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes },
                     // { name: "sex", placeholder: "sexo" },
                     { name: "telefone", placeholder: "Telefone" },
-                    { name: "birthdate", placeholder: "Data de Nascimento" },
-                    { name: "state", placeholder: "Estado" },
+                    { name: "birthdate", placeholder: "Data de Nascimento", type:'date' },
+                    { name: "state", placeholder: "Estado", data: estados, search: true },
                     { name: "city", placeholder: "Cidade" },
                     { name: "qty_donations", placeholder: "Quantidade de Doações Realizadas", type: "numeric" },
-                    { name: "date_last_donation", placeholder: "Data da Última Doação" },
+                    { name: "date_last_donation", placeholder: "Data da Última Doação", type:'date' },
                 ]}
                 buttonName={"SALVAR"}
-                submitAction={putUser}
+                submitAction={commit}
                 dados={_user} setDados={_setUser} />
         </View>
     );

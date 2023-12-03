@@ -11,7 +11,7 @@ import useSession from "../../../assets/services/apiToken";
 import { Iconify } from "react-native-iconify";
 
 function HomeScreen({ navigation }) {
-    const { user } = useSession(navigation)
+    const { user, token } = useSession(navigation)
     
 
     const goEditPerfil = () => {

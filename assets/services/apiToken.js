@@ -30,6 +30,7 @@ function useSession(navigation) {
         "sex": null,
         "state": null,
         "username": "Loading...",
+        "isLoading":true
     })
 
 
@@ -39,18 +40,19 @@ function useSession(navigation) {
                 .then(res => {
                     if (res == "" || res == null) {
                         console.log("null");
-                        setToken({ ...token, "username": "Convidado" })
-                        setUser({ ...user, "username": "Convidado" })
+                        setToken({ "access_token": null, "refresh_token": null, "username": "Convidado" })
+                        setUser({ "username": "Convidado", blood_type:null , guest:true })
                         return
                     }
-                    console.log(res);
+                    // console.log(res);
                     res = JSON.parse(res)
                     setToken(res)
                     console.log("loading...");
                     // apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
                     apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
                         .then((res) => {
-                            console.log(res.data)
+                            
+                            // console.log(res.data)
                             if (res.data['data'] == undefined) {
                                 alert('error')
                                 return
