@@ -1,11 +1,12 @@
 import { View, Text, Alert } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSession from "../../assets/services/apiToken";
 import apiDoeVida from "../../assets/services/apiDoeVida";
 
 function RequestScreen({ navigation }) {
     const { user, token } = useSession();
+    const [hospitals, setHospitals] = useState([{ label: "", value: "" }])
 
     const bloodTypes = [
         // { label: 'nullify', value: null },
@@ -73,63 +74,82 @@ function RequestScreen({ navigation }) {
         "status": "open"
     }
     const [dados, setDados] = useState({
-        blood_type: 2,
-        city_name: '',
-        description: '',
-        patient_name: '',
-        qty_bags: '',
-        requester: user.id,
-        hospital: '',
-        state: 1
+        "patient_name": "",
+        "blood_type": "",
+        "description": "",
+        "qty_bags": "",
+        "hospital": "",
+        "requester": user.id,
+        "state": 1
     })
-    
 
-    const enviar = () =>{
+    const getHospitals = () => {
+        console.log("loading...");
+        console.log(user.id);
+        apiDoeVida.get('/hospitals')
+            .then((res) => {
+                let hospitalsNames = res.data['data'].map(item => ({
+                    label: item.hospital_name,
+                    value: item.hospital_name,
+                }));
+                setHospitals(hospitalsNames)
+            })
+    }
+
+
+    const enviar = () => {
         apiDoeVida.post('/donations_orders', dados, {
-            headers:{
+            headers: {
                 Authorization: "Bearer " + token.access_token
             }
         })
-        .then((res)=>{Alert.alert(
-            'Sucesso!',
-            'Solicitação criada com sucesso',
-            [
-                {
-                    text: 'Ok',
-                    onPress: () => {},
-                    style: 'ok',
-                },
-            ],
-            {
-                cancelable: true,
-            },
-        )
-    console.log(res.data);
-    })
-        .catch((res)=>console.log(JSON.stringify(res.response)))
+            .then((res) => {
+                Alert.alert(
+                    'Sucesso!',
+                    'Solicitação criada com sucesso',
+                    [
+                        {
+                            text: 'Ok',
+                            onPress: () => { },
+                            style: 'ok',
+                        },
+                    ],
+                    {
+                        cancelable: true,
+                    },
+                )
+                console.log(res.data);
+            })
+            .catch((res) => console.log(JSON.stringify(res.response)))
     }
+    useEffect(() => {
+        getHospitals()
+    }, [])
+    useEffect(()=>{
+        setDados({...dados, ['requester']: user.id})
+    }, [user])
 
-    return ( 
+    return (
         <View>
             <Text className='rounded'></Text>
             <FormGenerator dados={dados} setDados={setDados}
-            info={[
-                { name: "patient_name", placeholder: "Nome do Paciente" },
-                { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes },
-                { name: "city_name", placeholder: "Cidade" },
-                { name: "hospital", placeholder: "Hospital" },
-                { name: "qty_bags", placeholder: "Quantidade de bolsas de Sangue" },
-                { name: "description", 
-                    placeholder: "Escreva sobre o motivo ou sobre a pessoa que esta precisando da doação... (opcional)",
-                    customClass: "p-2 h-52 px-8 w-full rounded-3xl border border-gray-330",
-                    multiline: true
-                },
-            ]}
-            submitAction={()=>enviar()}
-            buttonName={"Enviar"}
+                info={[
+                    { name: "patient_name", placeholder: "Nome do Paciente", req: true },
+                    { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes, req: true },
+                    { name: "hospital", placeholder: "Hospital", data: hospitals, search: true, req: true },
+                    { name: "qty_bags", type:'numeric', placeholder: "Quantidade de bolsas de Sangue", req: true },
+                    {
+                        name: "description",
+                        placeholder: "Escreva sobre o motivo ou sobre a pessoa que esta precisando da doação... (opcional)",
+                        customClass: "p-2 h-52 px-8 w-full rounded-3xl border border-gray-330",
+                        multiline: true
+                    },
+                ]}
+                submitAction={() => enviar()}
+                buttonName={"Enviar"}
             />
         </View>
-     );
+    );
 }
 
 export default RequestScreen;

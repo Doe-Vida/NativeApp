@@ -19,6 +19,7 @@ import { Iconify } from 'react-native-iconify';
 import EditProfileScreen from './screens/editProfile';
 import OrientationLocker from 'react-native-orientation-locker';
 import RequestScreen from './screens/request';
+import ExperienceScreen from './screens/experience';
 
 const Nav = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -403,6 +404,26 @@ function Routers() {
                             headerShown: true,
                             headerTintColor: "#fff",
                             headerTitle:"Solicitar Doação",
+                            headerStyle:
+                            {
+                                backgroundColor: ActiveTintColor,
+                            },
+                            // tabBarButton: (props) =>
+                            // // <CustomTabBarButtonCircularButton {...props} />
+                            // { },
+
+                        }}
+                />
+                <Stack.Screen
+                    name="Experience"
+                    component={ExperienceScreen}
+
+                    options={
+                        {
+                            tabBarStyle: { display: 'none' },
+                            headerShown: true,
+                            headerTintColor: "#fff",
+                            headerTitle:"Compartilhar Experiência",
                             headerStyle:
                             {
                                 backgroundColor: ActiveTintColor,

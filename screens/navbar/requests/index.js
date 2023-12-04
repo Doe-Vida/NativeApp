@@ -65,17 +65,16 @@ function RequestsScreen({ navigation }) {
         { label: 'O+', value: 'O+' },
         { label: 'O-', value: 'O-' },
     ];
+    useFocusEffect(useCallback(() => {
+            if (user.isLoading) {
+                return
+            }
+            // alert(user.blood_type ?? "erro")
 
-    useEffect(() => {
-        if (user.isLoading) {
-            return
-        }
-        // alert(user.blood_type ?? "erro")
-
-        console.log(user);
-        setDado({ blood_type: user.blood_type })
-        setBt(user.blood_type)
-    }, [user])
+            console.log(user);
+            setDado({ blood_type: user.blood_type })
+            setBt(user.blood_type)
+        }, [user]))
 
     const goEditPerfil = () => {
         navigation.navigate('EditProfile')
@@ -86,9 +85,7 @@ function RequestsScreen({ navigation }) {
         setHide(true)
     }
     const [hide, setHide] = useState(true)
-    useEffect(() => {
-        console.log(hide);
-    }, [hide])
+    
 
     const Modal = () => hide ? <View></View> :
         <View className='absolute h-full w-full'>
@@ -132,7 +129,7 @@ function RequestsScreen({ navigation }) {
                         <View className='flex w-full h-full items-center'>
                             <Modal></Modal>
                             <TouchableOpacity onPress={() => setHide(false)}><Text className='p-3 m-5 bg-pink-primary text-white rounded-md'>Alterar</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={()=> navigation.navigate("Request")} className='absolute z-50 bottom-2 right-4 rounded-full w-16 h-16 bg-pink-primary flex items-center justify-center'><Text className='text-white text-2xl'>+</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate("Request")} className='absolute z-50 bottom-2 right-4 rounded-full w-16 h-16 bg-pink-primary flex items-center justify-center'><Text className='text-white text-2xl'>+</Text></TouchableOpacity>
                             <GetRequests bloodType={bt} />
                         </View>
                         :
