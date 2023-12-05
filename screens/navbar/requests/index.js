@@ -136,7 +136,7 @@ function RequestsScreen({ navigation }) {
                         <View className='flex h-full w-full items-center justify-center'>
                             <Modal></Modal>
                             <Text className='font-semibold text-2xl p-5'>
-                                Voce precisa preencher seu tipo sanguineo para continuar
+                                Você precisa preencher seu tipo sanguineo para continuar
                             </Text>
                             <TouchableOpacity onPress={() => setHide(false)}><Text className='p-3 bg-pink-primary text-white rounded-md'>Alterar</Text></TouchableOpacity>
                         </View>

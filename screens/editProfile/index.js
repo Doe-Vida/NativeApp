@@ -75,7 +75,7 @@ function EditProfileScreen({ navigation }) {
         if (token.access_token == "Loading..." || token.access_token == null) {
             Alert.alert(
                 "Atenção!",
-                "Voce precisa estar logado para isso",
+                "Você precisa estar logado para isso",
                 [
                     {
                         text: 'Ok',
