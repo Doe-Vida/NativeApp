@@ -1,10 +1,11 @@
-import { Alert, Text, View } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useCallback, useEffect, useState } from "react";
 import apiDoeVida from "../../assets/services/apiDoeVida"
 import * as SecureStore from 'expo-secure-store';
 import useSession from "../../assets/services/apiToken";
 import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
 
 function EditProfileScreen({ navigation }) {
     // const [tokenAccess, setTokenAccess] = useState({ username: "", access_token: "", refresh_token: "" })
@@ -78,13 +79,13 @@ function EditProfileScreen({ navigation }) {
                 "Você precisa estar logado para isso",
                 [
                     {
-                        text: 'Ok',
-                        onPress: () => { },
+                        text: 'Voltar a home',
+                        onPress: () => { navigation.navigate('Home') },
                         style: 'ok',
                     },
                 ],
                 {
-                    cancelable: true,
+                    cancelable: false,
                 },
             )
         } else {
@@ -100,6 +101,20 @@ function EditProfileScreen({ navigation }) {
             }
         })
             .then((res) => {
+                Alert.alert(
+                    "Sucesso!",
+                    "Informações alteradas com sucesso",
+                    [
+                        {
+                            text: 'OK',
+                            onPress: () => { },
+                            style: 'ok',
+                        },
+                    ],
+                    {
+                        cancelable: true,
+                    },
+                )
                 console.log(res.data);
             })
     }
@@ -114,46 +129,78 @@ function EditProfileScreen({ navigation }) {
         { label: 'O+', value: 'O+' },
         { label: 'O-', value: 'O-' },
     ];
-    const estados = [
-        { label: 'SP', value: 'SP' },
-        { label: 'MG', value: 'MG' },
-        { label: 'BH', value: 'BH' },
-        { label: 'AM', value: 'AM' },
-    ]
+    // const [estados, setEstados] = useState([{id:0, sigla:"", nome:""}])
+    const [estados, setEstados] = useState([{ label: "", value: "" }])
+    const [municipios, setMunicipios] = useState([{ label: "", value: "" }])
+    useEffect(() => {
+        axios.get('https://brasilapi.com.br/api/ibge/uf/v1')
+            .then((res) => {
+                let data = res.data.map((item) => (
+                    {
+                        label: item.nome,
+                        value: item.sigla
+                    }
+                ))
+                setEstados(data)
+            })
+    }, [])
+    useEffect(() => {
+        axios.get(`https://brasilapi.com.br/api/ibge/municipios/v1/${_user.state}?providers=dados-abertos-br,gov,wikipedia`)
+            .then((res) => {
+                let data = res.data.map(item => (
+                    {
+                        label: item.nome,
+                        value: item.codigo_ibge
+                    }
+                ))
+                setMunicipios(data)
+            })
+        console.log();
+    }, [_user.state])
+    // const estados = [
+    //     { label: 'SP', value: 'SP' },
+    //     { label: 'MG', value: 'MG' },
+    //     { label: 'BH', value: 'BH' },
+    //     { label: 'AM', value: 'AM' },
+    // ]
     return (
-        <View>
-            <View className='h-3 w-full'></View>
-            <FormGenerator
-                // "default", 
-                // 'numeric', 
-                // 'email-address', 
-                // "ascii-capable", 
-                // 'numbers-and-punctuation', 
-                // 'url', 
-                // 'number-pad', 
-                // 'phone-pad', 
-                // 'name-phone-pad', 
-                // 'decimal-pad', 
-                // 'twitter', 
-                // 'web-search', 
-                // 'visible-password'
-                info={[
-                    { name: "first_name", placeholder: "Primeiro Nome" },
-                    { name: "last_name", placeholder: "Último Nome" },
-                    { name: "phone", placeholder: "Celular", type: "phone-pad" },
-                    { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes },
-                    // { name: "sex", placeholder: "sexo" },
-                    { name: "telefone", placeholder: "Telefone" },
-                    { name: "birthdate", placeholder: "Data de Nascimento", type:'date' },
-                    { name: "state", placeholder: "Estado", data: estados, search: true },
-                    { name: "city", placeholder: "Cidade" },
-                    { name: "qty_donations", placeholder: "Quantidade de Doações Realizadas", type: "numeric" },
-                    { name: "date_last_donation", placeholder: "Data da Última Doação", type:'date' },
-                ]}
-                buttonName={"SALVAR"}
-                submitAction={commit}
-                dados={_user} setDados={_setUser} />
-        </View>
+        <ScrollView>
+
+
+            <View className='pb-2'>
+                <View className='h-3 w-full'></View>
+                <FormGenerator
+                    // "default", 
+                    // 'numeric', 
+                    // 'email-address', 
+                    // "ascii-capable", 
+                    // 'numbers-and-punctuation', 
+                    // 'url', 
+                    // 'number-pad', 
+                    // 'phone-pad', 
+                    // 'name-phone-pad', 
+                    // 'decimal-pad', 
+                    // 'twitter', 
+                    // 'web-search', 
+                    // 'visible-password'
+                    info={[
+                        { name: "first_name", placeholder: "Primeiro Nome" },
+                        { name: "last_name", placeholder: "Último Nome" },
+                        { name: "phone", placeholder: "Celular", type: "phone-pad" },
+                        { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes },
+                        // { name: "sex", placeholder: "sexo" },
+                        { name: "telefone", placeholder: "Telefone" },
+                        { name: "birthdate", placeholder: "Data de Nascimento", type: 'date' },
+                        { name: "state", placeholder: "Estado", data: estados, search: true },
+                        { name: "city", placeholder: "Cidade", data: municipios, search: true },
+                        { name: "qty_donations", placeholder: "Quantidade de Doações Realizadas", type: "numeric" },
+                        { name: "date_last_donation", placeholder: "Data da Última Doação", type: 'date' },
+                    ]}
+                    buttonName={"SALVAR"}
+                    submitAction={commit}
+                    dados={_user} setDados={_setUser} />
+            </View>
+        </ScrollView>
     );
 }
 

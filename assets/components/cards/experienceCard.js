@@ -8,7 +8,7 @@ function ExperienceCard({name, content}) {
             </Text>
             <View className='h-px my-2 bg-black'></View>
             <View className='gap-2'>
-                        <Text className='w-full pl-5 pr-2'>{content}</Text>
+                        <Text className='w-full p-2'>{content}</Text>
             </View>
         </View>
      );

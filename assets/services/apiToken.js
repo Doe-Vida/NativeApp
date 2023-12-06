@@ -12,7 +12,6 @@ function useSession(navigation) {
         access_token: "loading...",
         refresh_token: "loading..."
     })
-
     const [user, setUser] = useState({
         "birthdate": null,
         "blood_type": null,
@@ -30,10 +29,8 @@ function useSession(navigation) {
         "sex": null,
         "state": null,
         "username": "Loading...",
-        "isLoading":true
+        "isLoading": true
     })
-
-
     useFocusEffect(
         useCallback(() => {
             SecureStore.getItemAsync("token")
@@ -41,17 +38,15 @@ function useSession(navigation) {
                     if (res == "" || res == null) {
                         console.log("null");
                         setToken({ "access_token": null, "refresh_token": null, "username": "Convidado" })
-                        setUser({ "username": "Convidado", blood_type:null , guest:true })
+                        setUser({ "username": "Convidado", blood_type: null, guest: true })
                         return
                     }
-                    // console.log(res);
                     res = JSON.parse(res)
                     setToken(res)
-                    console.log("loading...");
-                    // apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
-                    apiDoeVida.get(`users/${res.username}`, { headers: { Authorization: "Bearer " + res.access_token } })
+                    apiDoeVida.get(`users/${res.username}`,
+                        { headers: { Authorization: "Bearer " + res.access_token } })
                         .then((res) => {
-                            
+
                             // console.log(res.data)
                             if (res.data['data'] == undefined) {
                                 alert('error')
@@ -117,11 +112,6 @@ function useSession(navigation) {
                 })
         }, [att])
     )
-    // useFocusEffect(
-    //     useCallback(()=>{
-
-    //     },[])
-    // )
     return { user, token };
 }
 

@@ -5,7 +5,7 @@ import ExperienceCard from "../../../assets/components/cards/experienceCard";
 import { useFocusEffect } from "@react-navigation/native";
 
 function ExperiencesScreen({ navigation }) {
-    const [experiences, setExperiences] = useState([{ user: { first_name: "" }, content: "" }])
+    const [experiences, setExperiences] = useState([{ user: { first_name: "", last_name:"" }, content: "" }])
     const getExperiences = () => {
         apiDoeVida.get('/posts')
             .then(
@@ -25,7 +25,7 @@ function ExperiencesScreen({ navigation }) {
                     <View className='flex items-center mt-2 w-11/12 '>
                         {experiences.map(experience =>
                             <View className='w-full mb-2'>
-                                <ExperienceCard name={experience.user.first_name} content={experience.content} />
+                                <ExperienceCard name={experience.user.first_name + " " + experience.user.last_name} content={experience.content} />
                             </View>
                         )}
                     </View>

@@ -1,4 +1,4 @@
-import { View, Image, Text, Alert } from "react-native";
+import { View, Image, Text, Alert, ScrollView } from "react-native";
 // import CustomInput from "../../assets/components/customInput";
 // import CustomButton from "../../assets/components/buttons/customButton";
 import { useState } from "react";
@@ -7,9 +7,9 @@ import apiDoeVida from "../../assets/services/apiDoeVida";
 
 function SignUpScreen({navigation}) {
     const [dados, setDados] = useState({
-        username: 'meira.gm@hotmail.com',
-        password: "SenhaForte",
-        confirmPassword: "SenhaForte"
+        username: '',
+        password: "",
+        confirmPassword: ""
     })
 
     const passwordCheck = () =>{
@@ -38,6 +38,7 @@ function SignUpScreen({navigation}) {
     }
 
     return (
+        <ScrollView>
         <View className="flex-1 flex flex-col items-center justify-start">
             <Image className="w-72 h-72" source={require('../../assets/images/doctor.png')} />
 
@@ -66,6 +67,7 @@ function SignUpScreen({navigation}) {
 
             </View>
         </View>
+        </ScrollView>
     );
 }
 

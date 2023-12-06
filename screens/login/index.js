@@ -1,5 +1,5 @@
 import { Link } from "@react-navigation/native";
-import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, ScrollView } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useState } from "react";
 // import CustomButton from "../../assets/components/buttons/customButton";
@@ -10,7 +10,7 @@ import * as SecureStore from 'expo-secure-store';
 
 function LoginScreen({ navigation }) {
     const [hide, setHide] = useState(true)
-  
+
 
     const Modal = () => hide ? <View></View> :
         <View className='absolute h-full w-full'>
@@ -29,33 +29,34 @@ function LoginScreen({ navigation }) {
         </View>
 
     const [dados, setDados] = useState({
-        username: "meira.gmrm@hotmail.com",
-        password: "SenhaForte",
+        username: "",
+        password: "",
     })
-    
-    
-    const logar = async() => {
+
+
+    const logar = async () => {
         console.log("connecting...");
         setHide(false)
         apiDoeVida.post('login', dados)
-        .then(async(res)=>{
-            console.log(res.data['data']);
-            SecureStore.setItemAsync("token", JSON.stringify({username: dados['username'] , ...res.data['data']}))
-            // await setToken(JSON.stringify(res.data.data))
-            navigation.navigate("NavBar");
-        })
-        .catch(res=>
-            // alert(JSON.stringify(res.response.data))
-            alert("Usuario ou senha errado")
+            .then(async (res) => {
+                console.log(res.data['data']);
+                SecureStore.setItemAsync("token", JSON.stringify({ username: dados['username'], ...res.data['data'] }))
+                // await setToken(JSON.stringify(res.data.data))
+                navigation.navigate("NavBar");
+            })
+            .catch(res =>
+                // alert(JSON.stringify(res.response.data))
+                alert("Usuario ou senha errado")
             )
-        .finally(()=>setHide(true))
+            .finally(() => setHide(true))
     }
     return (
-        <View className="flex-1 items-center justify-center ">
-            <Modal></Modal>
-            <View className="flex items-center w-10/12 p-2 rounded-xl">
-            <Image className="w-72 h-72" source={require('../../assets/images/doctors.png')}></Image>
-            {/* 
+        <ScrollView>
+            <View className="flex-1 h-full items-center justify-center ">
+                <Modal></Modal>
+                <View className="flex items-center w-10/12 p-2 rounded-xl">
+                    <Image className="w-72 h-72" source={require('../../assets/images/doctors.png')}></Image>
+                    {/* 
             Esse form generator é o que eu fiz com os validadores
             dentro de info os seguintes valores podem ser colocados:
                 {
@@ -98,27 +99,27 @@ function LoginScreen({ navigation }) {
                 }
                 ...
             */}
-                <FormGenerator
-                    dados={dados}
-                    setDados={setDados}
-                    buttonName={"Login"}
-                    submitAction={logar}
-                    info={[
-                        {
-                            name: "username",
-                            type: "default",
-                        },
-                        {
-                            title: "custom title",
-                            placeholder: "custom placeholder",
-                            type: "default",
-                            name: "password",
-                            isPassword: true
-                        },
-                    ]}
-                />
-            </View>
-            {/* <TouchableOpacity onPress={() => { navigation.navigate("NavBar"); }} className='bg-slate-100 p-2 rounded-full'>
+                    <FormGenerator
+                        dados={dados}
+                        setDados={setDados}
+                        buttonName={"Login"}
+                        submitAction={logar}
+                        info={[
+                            {
+                                name: "username",
+                                placeholder: "E-mail",
+                                type: "default",
+                            },
+                            {
+                                name: "password",
+                                placeholder: "Password",
+                                type: "default",
+                                isPassword: true
+                            },
+                        ]}
+                    />
+                </View>
+                {/* <TouchableOpacity onPress={() => { navigation.navigate("NavBar"); }} className='bg-slate-100 p-2 rounded-full'>
                 <Text>Logar</Text>
             </TouchableOpacity>
             <Link to={"/NavBar"} >
@@ -129,7 +130,8 @@ function LoginScreen({ navigation }) {
                 </View>
             </Link> */}
 
-        </View>
+            </View>
+        </ScrollView>
     );
 }
 

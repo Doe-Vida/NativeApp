@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ScrollView } from "react-native";
 import FormGenerator from "../../assets/components/formGenerator";
 import { useEffect, useState } from "react";
 import useSession from "../../assets/services/apiToken";
@@ -125,30 +125,32 @@ function RequestScreen({ navigation }) {
     useEffect(() => {
         getHospitals()
     }, [])
-    useEffect(()=>{
-        setDados({...dados, ['requester']: user.id})
+    useEffect(() => {
+        setDados({ ...dados, ['requester']: user.id })
     }, [user])
 
     return (
-        <View>
-            <Text className='rounded'></Text>
-            <FormGenerator dados={dados} setDados={setDados}
-                info={[
-                    { name: "patient_name", placeholder: "Nome do Paciente", req: true },
-                    { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes, req: true },
-                    { name: "hospital", placeholder: "Hospital", data: hospitals, search: true, req: true },
-                    { name: "qty_bags", type:'numeric', placeholder: "Quantidade de bolsas de Sangue", req: true },
-                    {
-                        name: "description",
-                        placeholder: "Escreva sobre o motivo ou sobre a pessoa que esta precisando da doação... (opcional)",
-                        customClass: "p-2 h-52 px-8 w-full rounded-3xl border border-gray-330",
-                        multiline: true
-                    },
-                ]}
-                submitAction={() => enviar()}
-                buttonName={"Enviar"}
-            />
-        </View>
+        <ScrollView>
+            <View className='pb-2'>
+                <Text className='rounded'></Text>
+                <FormGenerator dados={dados} setDados={setDados}
+                    info={[
+                        { name: "patient_name", placeholder: "Nome do Paciente", req: true },
+                        { name: "blood_type", placeholder: "Tipo Sanguíneo", data: bloodTypes, req: true },
+                        { name: "hospital", placeholder: "Hospital", data: hospitals, search: true, req: true },
+                        { name: "qty_bags", type: 'numeric', placeholder: "Quantidade de bolsas de Sangue", req: true },
+                        {
+                            name: "description",
+                            placeholder: "Escreva sobre o motivo ou sobre a pessoa que esta precisando da doação... (opcional)",
+                            customClass: "p-2 h-52 px-8 w-full rounded-3xl border border-gray-330",
+                            multiline: true
+                        },
+                    ]}
+                    submitAction={() => enviar()}
+                    buttonName={"Enviar"}
+                />
+            </View>
+        </ScrollView>
     );
 }
 
